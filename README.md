@@ -10,7 +10,7 @@ frontend:
 3. npm install openrouteservice-js
 4. npm install axios
 
-How to run:\\
+How to run: 
 Backend:
 1. Go to the backend directory in terminal 
 2. python3 (python) app.py 
