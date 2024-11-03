@@ -1,14 +1,14 @@
 # cap-frontend-draft
 Please refer to the following the list of pacakges need to be installed
 backend:
-pip3(pip) install Flask
-pip3(pip) install Flask-CORS
+1. pip3(pip) install Flask
+2. pip3(pip) install Flask-CORS
 
 frontend:
-npm install react-router-dom
-npm install leaflet react-leaflet
-npm install openrouteservice-js
-npm install axios
+1. npm install react-router-dom
+2. npm install leaflet react-leaflet
+3. npm install openrouteservice-js
+4. npm install axios
 
 How to run:
 Backend:
