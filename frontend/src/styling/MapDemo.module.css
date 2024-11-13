@@ -1,0 +1,55 @@
+.content {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevents content overflow outside the viewport */
+}
+/* Left Panel (Sidebar) */
+.leftPanel {
+  width: 30%; /* Fixed width for sidebar */
+  background-color: #f4f4f4; /* Light background color */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto; /* Enables vertical scrolling when content exceeds height */
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+/* Container for trip details */
+.tripDetails {
+  flex: 1; /* Ensures content in sidebar fills available height */
+}
+/* Right Panel (Map area) */
+.rightPanel {
+  flex: 1; /* Takes up remaining width */
+  position: relative;
+}
+
+.fullHeightMap {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+}
+
+.fullPageMap {
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: fixed; /* Fix the map in place, taking up the whole page */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Ensure it's behind other elements */
+}
+
+.full-page-map {
+  height: 100vh; /* Full viewport height */
+  width: 100vw;  /* Full viewport width */
+  position: fixed; /* Fix the map in place, taking up the whole page */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Ensure it's behind other elements, if needed */
+}
+.map-container {
+  flex: 1;
+  height: calc(100vh - 60px); /* Full viewport height minus header height */
+}
+.full-height-map {
+  width: 100%;
+  height: 100%; /* Fill parent container height */
+}

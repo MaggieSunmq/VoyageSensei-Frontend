@@ -1,0 +1,112 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  } 
+  /* Main chat box container */
+  .chatBox {
+    position: fixed;
+    top: 20px; /* Position from the top */
+    left: 20px; /* Position from the left */
+    width: 300px;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  /* Collapsed state */
+  .chatBox.collapsed {
+    width: 80px;
+    height: 40px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Toggle button for expand/collapse */
+  .toggleButton {
+    width: 100%;
+    background-color: #0084ff;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  /* Chat content when expanded */
+  .chatContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  /* Messages container */
+  .messages {
+    padding: 10px;
+    flex: 1;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* User and bot message styling */
+  .userMessage, .botMessage {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 14px;
+  }
+  
+  .userMessage {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: #fff;
+  }
+  
+  .botMessage {
+    align-self: flex-start;
+    background-color: #e5e5ea;
+    color: #333;
+  }
+  
+  /* Input container */
+  .inputContainer {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    background-color: #ffffff;
+  }
+  
+  .inputContainer input {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 8px;
+  }
+  
+  .inputContainer button {
+    padding: 10px 20px;
+    background-color: #0084ff;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .inputContainer button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }

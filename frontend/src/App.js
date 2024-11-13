@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, useNavigate, useRoutes } from 'react-router-dom';
-import OnboardingPage1 from './pages/Onboarding1';
-import OnboardingPage2 from './pages/Onboarding2';
-import OnboardingPage3 from './pages/Onboarding3';
-import OnboardingPage4 from './pages/Onboarding4';
+import HomePage from './pages/HomePage';
+import Activities from './pages/ActivitiesPage';
+import Dietary from './pages/Dietary';
+import Cusine from './pages/Cuisine';
 import Step2 from './pages/Step2_temp';
 import FinalPage from './pages/Trip';
-import './App.css';
+//import './App.css';
 
 function App() {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -33,10 +33,11 @@ function App() {
 
   // Nested AppRoutes component
   const AppRoutes = () => useRoutes([
-    { path: "/", element: <OnboardingPage1 handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/o2", element: <OnboardingPage2 handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/o3", element: <OnboardingPage3 handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/o4", element: <OnboardingPage4 handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    { path: "/", element: <HomePage handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    { path: "/onboarding/Activities", element: <Activities handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    //{ path: "/onboarding/poi", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    { path: "/onboarding/dietary", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    { path: "/onboarding/cuisine", element: <Cusine handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     { path: "/understand_user", element: <Step2  handleTagClick={handleTagClick} /> },
     { path: "/planner", element: <FinalPage selectedTags={selectedTags} /> },
   ]);

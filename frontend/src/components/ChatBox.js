@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import styles from "../styling/ChatBox.module.css"
 
 function ChatBox() {
   const [messages, setMessages] = useState([]);
@@ -19,23 +20,29 @@ function ChatBox() {
       console.error("Error sending message:", error);
     }
   };
-
+  
   return (
-    <div className={`chat-box ${isCollapsed ? 'collapsed' : ''}`}>
-      <button className="toggle-button" onClick={() => setIsCollapsed(!isCollapsed)}>
+    <div className={`${styles.chatBox} ${isCollapsed ? styles.collapsed : ''}`}>
+      <button
+        className={styles.toggleButton}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
         {isCollapsed ? 'Chat' : 'Close'}
       </button>
-
+  
       {!isCollapsed && (
-        <div className="chat-content">
-          <div className="messages">
+        <div className={styles.chatContent}>
+          <div className={styles.messages}>
             {messages.map((msg, index) => (
-              <div key={index} className={msg.sender === 'user' ? 'user-message' : 'bot-message'}>
+              <div
+                key={index}
+                className={msg.sender === 'user' ? styles.userMessage : styles.botMessage}
+              >
                 {msg.text}
               </div>
             ))}
           </div>
-          <div className="input-container">
+          <div className={styles.inputContainer}>
             <input
               type="text"
               value={input}
@@ -43,14 +50,47 @@ function ChatBox() {
               onKeyPress={(e) => e.key === 'Enter' ? sendMessage() : null}
               placeholder="Enter your message"
             />
-            <button onClick={sendMessage} disabled={!input.trim()}>Send</button>
+            <button onClick={sendMessage} disabled={!input.trim()}>
+              Send
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-}
 
+
+//   return (
+//     <div className={`chat-box ${isCollapsed ? 'collapsed' : ''}`}>
+//       <button className="toggle-button" onClick={() => setIsCollapsed(!isCollapsed)}>
+//         {isCollapsed ? 'Chat' : 'Close'}
+//       </button>
+
+//       {!isCollapsed && (
+//         <div className="chat-content">
+//           <div className="messages">
+//             {messages.map((msg, index) => (
+//               <div key={index} className={msg.sender === 'user' ? 'user-message' : 'bot-message'}>
+//                 {msg.text}
+//               </div>
+//             ))}
+//           </div>
+//           <div className="input-container">
+//             <input
+//               type="text"
+//               value={input}
+//               onChange={(e) => setInput(e.target.value)}
+//               onKeyPress={(e) => e.key === 'Enter' ? sendMessage() : null}
+//               placeholder="Enter your message"
+//             />
+//             <button onClick={sendMessage} disabled={!input.trim()}>Send</button>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+}
 export default ChatBox;
 
 // import React, { useState, useRef, useEffect } from 'react';

@@ -1,0 +1,55 @@
+.itinerary {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .itineraryTitle {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .itineraryPoint {
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 5px solid #4CAF50;
+  }
+  
+  .poiList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .poiCard {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    border-left: 5px solid #2196F3;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .poiCard h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #222;
+  }
+  
+  .poiCard p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .itineraryLocation {
+    color: #888;
+    font-style: italic;
+  }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import OpenRouteService from 'openrouteservice-js';
+import styles from '../styling/MapDemo.module.css';
 
 function Map() {
   const [itinerary, setItinerary] = useState(null);
@@ -75,22 +76,67 @@ function Map() {
 
   const { starting_point, pois } = itinerary;
 
+  // const createNumberedIcon = (number) => {
+  //   return L.divIcon({
+  //     html: `<div style="background-color: #2d8fdd; color: white; font-weight: bold; font-size: 16px; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">${number}</div>`,
+  //     className: "numbered-icon",
+  //     iconSize: [30, 30],
+  //   });
+  // };
+// Function to create a custom numbered pin icon styled like Google Maps or Apple Maps
+const createNumberedIcon = (number) => {
+  return L.divIcon({
+    html: `
+      <div style="
+        position: relative;
+        width: 30px;
+        height: 30px;
+        background-color: #D9534F; /* Refined red color */
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 50% 50% 50% 0; /* Creates the pin shape */
+        transform: rotate(-45deg); /* Rotates to point downward */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      ">
+        <div style="
+          transform: rotate(45deg); /* Corrects text orientation */
+        ">
+          ${number}
+        </div>
+      </div>
+    `,
+    className: "numbered-icon",
+    iconSize: [30, 42], // Adjusted to fit the pin shape
+    iconAnchor: [15, 42], // Anchor at the tip of the pin
+  });
+};
+
   return (
-    <MapContainer center={starting_point.coords} zoom={13} className="full-height-map">
+    <MapContainer
+      center={starting_point.coords}
+      zoom={13}
+      className={styles.fullHeightMap} // Use CSS Module for class
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
       {/* Starting Point Marker */}
       <Marker position={starting_point.coords} icon={startIcon}>
         <Popup>
-          <strong>{starting_point.name}</strong><br />
-          {starting_point.description}<br />
+          <strong>{starting_point.name}</strong>
+          <br />
+          {starting_point.description}
+          <br />
           {starting_point.location}
         </Popup>
       </Marker>
 
-      {/* POI Markers */}
+      {/* POI Markers with Numbered Icons */}
       {pois.map((poi, index) => (
-        <Marker key={index} position={poi.coords} icon={poiIcon}>
+        <Marker key={index} position={poi.coords} icon={createNumberedIcon(index + 1)}>
           <Popup>
             <strong>{poi.name}</strong><br />
             {poi.description}<br />
@@ -100,7 +146,7 @@ function Map() {
       ))}
 
       {/* Route Polyline */}
-      {route && <Polyline positions={route} color="blue"/>}
+      {route && <Polyline positions={route} color="blue" />}
     </MapContainer>
   );
 }
