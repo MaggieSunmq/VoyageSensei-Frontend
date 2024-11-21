@@ -1,55 +1,74 @@
+/* General Layout */
 .itinerary {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-  }
-  
-  .itineraryTitle {
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .itineraryPoint {
-    padding: 15px;
-    background: #ffffff;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 5px solid #4CAF50;
-  }
-  
-  .poiList {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .poiCard {
-    padding: 15px;
-    margin-bottom: 15px;
-    background: #ffffff;
-    border-radius: 8px;
-    border-left: 5px solid #2196F3;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .poiCard h3 {
-    margin: 0 0 10px;
-    font-size: 20px;
-    color: #222;
-  }
-  
-  .poiCard p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .itineraryLocation {
-    color: #888;
-    font-style: italic;
-  }
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  background-color: #f5f5f5; /* Light gray background */
+  border-radius: 12px;
+}
+
+.itineraryTitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #444;
+  text-align: center;
+}
+
+/* Separator */
+.separator {
+  text-align: center;
+  margin: 20px 0;
+  color: #555;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+/* Card Layout */
+.poiList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.poiCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.poiCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Starting Point Card */
+.startingPoint {
+  border-left: 6px solid #ccc; /* Neutral gray for starting point */
+}
+
+/* POI Card */
+.poi {
+  border-left: 6px solid #f08080; /* Light red accent for POIs */
+}
+
+/* Text */
+.poiSubtitle{
+  font-size: 14px;
+  line-height: 1.6; /* Consistent spacing for readability */
+  color: #555;
+  margin-bottom: 10px;
+}
+.poiInfo {
+  font-size: 14px;
+  line-height: 1.6; 
+  color: #555;
+  margin-bottom: 10px;
+}
+
+
+

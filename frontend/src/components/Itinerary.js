@@ -10,41 +10,108 @@ function Itinerary() {
   useEffect(() => {
     const fetchItinerary = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/itinerary');
-        const { starting_point, pois } = response.data;
-        setStartingPoint(starting_point);
+        const response = await axios.get('http://127.0.0.1:5000/query/current_plan');
+        const data = response.data;
+  
+        // Extract the starting point
+        const startingPoint = data[0]; // First element is the starting point
+        setStartingPoint(startingPoint);
+  
+        // Extract the rest of the POIs excluding the first and last (starting/ending points)
+        const pois = data.slice(1, -1); // Remove the first and last elements
         setPois(pois);
       } catch (error) {
         console.error("Error fetching itinerary:", error);
       }
     };
     fetchItinerary();
-  }, []);
+  }, [])
 
   return (
-    <div className={styles.itineray}>
-      <h2 className={styles.itinerayTitle}>Trip Itinerary</h2>
+    <div className={styles.itinerary}>
+      <h2 className={styles.itineraryTitle}>Trip Itinerary</h2>
+  
+      {/* Starting Point */}
       {startingPoint && (
-        <div className={styles.itineraryPoint}>
-          <h3>Starting/Ending Point</h3>
-          <p><strong>{startingPoint.name}</strong>: {startingPoint.description}</p>
-          <p className={styles.itinerayLocation}>Location: {startingPoint.location}</p>
+        <div className={`${styles.poiCard} ${styles.startingPoint}`}>
+          <h3>Starting Point</h3>
+          <p>{startingPoint.address}</p>
         </div>
       )}
-      <ul className={styles.poiList}>
+  
+      {/* Separator */}
+      <div className={styles.separator}>
+        <h3>Points of Interest</h3>
+      </div>
+  
+      {/* POIs */}
+      <div className={styles.poiList}>
         {pois.map((poi, index) => (
-          <li key={index} className={styles.poiCard}>
+          <div key={index} className={`${styles.poiCard} ${styles.poi}`}>
             <h3>{index + 1}. {poi.name}</h3>
-            <p>{poi.description}</p>
-            <p className={styles.itinerayLocation}>Location: {poi.location}</p>
-          </li>
+            <p className={styles.poiSubtitle}>{poi.description}</p>
+            <div>Address: <span className={styles.poiInfo}>{poi.address}</span></div>
+            <div>Reasoning: <span className={styles.poiInfo}>{poi.reasoning}</span></div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
+   
 }
+  
+  
 
 export default Itinerary;
+
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import styles from "../styling/PlanLayout.module.css"
+
+
+// function Itinerary() {
+//   const [startingPoint, setStartingPoint] = useState(null);
+//   const [pois, setPois] = useState([]);
+
+//   useEffect(() => {
+//     const fetchItinerary = async () => {
+//       try {
+//         const response = await axios.get('http://127.0.0.1:5000/api/itinerary');
+//         const { starting_point, pois } = response.data;
+//         setStartingPoint(starting_point);
+//         setPois(pois);
+//       } catch (error) {
+//         console.error("Error fetching itinerary:", error);
+//       }
+//     };
+//     fetchItinerary();
+//   }, []);
+
+//   return (
+//     <div className={styles.itineray}>
+//       <h2 className={styles.itinerayTitle}>Trip Itinerary</h2>
+//       {startingPoint && (
+//         <div className={styles.itineraryPoint}>
+//           <h3>Starting/Ending Point</h3>
+//           <p><strong>{startingPoint.name}</strong>: {startingPoint.description}</p>
+//           <p className={styles.itinerayLocation}>Location: {startingPoint.location}</p>
+//         </div>
+//       )}
+//       <ul className={styles.poiList}>
+//         {pois.map((poi, index) => (
+//           <li key={index} className={styles.poiCard}>
+//             <h3>{index + 1}. {poi.name}</h3>
+//             <p>{poi.description}</p>
+//             <p className={styles.itinerayLocation}>Location: {poi.location}</p>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+// export default Itinerary;
 
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';

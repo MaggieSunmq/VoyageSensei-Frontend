@@ -27,12 +27,12 @@ function HomePage() {
         <div className={styles.header}>
           <h1 className={styles.title}>Voyage Sensei</h1>
           <div className={styles.line}></div>
-          <p className={styles.proposition}>Plan your dream journeys with ease</p>
+          <p className={styles.proposition}>Your personal guide to effortless road trips.</p>
         </div>
 
         <div className={styles.buttonContainer}>
           <button onClick={() => navigate('/onboarding/Activities')} className={styles.actionButton}>
-            Explore
+            Build Your Profile
           </button>
           <button onClick={() => navigate('/understand_user')} className={styles.actionButton}>
             Start Planning

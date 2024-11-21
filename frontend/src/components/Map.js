@@ -27,49 +27,50 @@ function Map() {
   useEffect(() => {
     const fetchItinerary = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/itinerary');
-        const { starting_point, pois } = response.data;
-
-        if (!starting_point.coords || pois.some(poi => !poi.coords)) {
+        const response = await axios.get('http://127.0.0.1:5000/query/current_plan');
+        const data = response.data;
+        // Extract starting point and POIs
+        const starting_point = data[0];
+        const pois = data.slice(1, -1); // Exclude the duplicate ending point
+  
+        if (!starting_point.coords || pois.some((poi) => !poi.coords)) {
           console.error("Invalid or missing coordinates for some points of interest.");
           return;
         }
-
-        setItinerary(response.data);
+  
+        setItinerary({ starting_point, pois });
+  
+        // Fetch Route Using OpenRouteService
+        const client = new OpenRouteService.Directions({
+          api_key: orsApiKey,
+        });
+  
+        const coordinates = [
+          starting_point.coords,
+          ...pois.map((poi) => poi.coords),
+          starting_point.coords, // Loop back to the starting point
+        ].map((coord) => [coord[1], coord[0]]); // ORS requires [lon, lat]
+  
+        client
+          .calculate({
+            coordinates,
+            profile: 'driving-car', // Use 'foot-walking' for walking routes
+            format: 'geojson',
+          })
+          .then((response) => {
+            const routeCoordinates = response.features[0].geometry.coordinates.map(
+              (coord) => [coord[1], coord[0]] // Convert back to [lat, lon] for Leaflet
+            );
+            setRoute(routeCoordinates);
+          })
+          .catch((error) => console.error('Error fetching route from OpenRouteService:', error));
       } catch (error) {
-        console.error("Error fetching itinerary:", error);
+        console.error('Error fetching itinerary:', error);
       }
     };
-
+  
     fetchItinerary();
   }, []);
-
-  useEffect(() => {
-    if (itinerary) {
-      // Initialize OpenRouteService client with API key
-      const client = new OpenRouteService.Directions({
-        api_key: orsApiKey
-      });
-
-      const coordinates = [
-        itinerary.starting_point.coords,
-        ...itinerary.pois.map(poi => poi.coords),
-        itinerary.starting_point.coords // Loop back to the starting point
-      ];
-
-      client.calculate({
-        coordinates: coordinates.map(coord => [coord[1], coord[0]]), // Format for OpenRouteService: [longitude, latitude]
-        profile: 'driving-car', // Use 'foot-walking' if you want a walking route
-        format: 'geojson'
-      })
-      .then(response => {
-        const routeCoordinates = response.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
-        setRoute(routeCoordinates);
-      })
-      .catch(error => console.error("Error fetching route from OpenRouteService:", error));
-    }
-  }, [itinerary, orsApiKey]);
-
   if (!itinerary) {
     return <div>Loading...</div>;
   }
@@ -152,7 +153,6 @@ const createNumberedIcon = (number) => {
 }
 
 export default Map;
-
 
 
 

@@ -1,59 +1,74 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styling/QueryInput.module.css';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
-function Understand(nextClick) {
+function Understand() {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [summary, setSummary] = useState([]); // Requirements/Summary data
 
   // Handle sending a new message
-  const sendMessage = async () => {
-    if (input.trim()) {
-      const newMessage = { text: input, user: 'user' };
-      setMessages([...messages, newMessage]);
-      setInput('');
+// Handle sending a new message
+const sendMessage = async () => {
+  if (input.trim()) {
+    const newMessage = { text: input, user: 'user' };
+    setMessages([...messages, newMessage]);
+    setInput('');
 
-      // Send message to backend
-      try {
-        const response = await axios.post('http://127.0.0.1:5000/api/process_message', {
-          message: newMessage.text,
+    // Send message to backend
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/query', { query: input });
+      console.log('Response data:', response.data); // Debug response data
+
+      // Interpret backend response
+      let botMessages = [];
+      if (response.data === "query_updated") {
+        // User input is not related to recommendations
+        botMessages.push({
+          user: 'bot',
+          text: "Thank you for inputting your preference. It will be included for the plans."
         });
-
-        // Process the response (assuming the backend returns a response from a bot or updates)
-        if (response.data && response.data.reply) {
-          const botMessage = { text: response.data.reply, user: 'bot' };
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
-          updateSummary(botMessage.text);
-        }
-      } catch (error) {
-        console.error("Error sending message to backend:", error);
+      } else if (typeof response.data === "object") {
+        // Backend generated a trip plan
+        botMessages.push(
+          { user: 'bot', text: "Your trip has been generated! Please click the next page button to see the trip!" },
+        );
+      } else {
+        // Fallback for unexpected backend responses
+        botMessages.push({
+          user: 'bot',
+          text: "Sorry, I couldn't process that. Could you try again?"
+        });
       }
+      setMessages((prevMessages) => [...prevMessages, ...botMessages]);
+    } catch (error) {
+      console.error('Error fetching response:', error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { user: 'bot', text: "There was an error processing your request. Please try again later." }
+      ]);
     }
-  };
-
-  // Simulate updating the summary based on the chat content
-  const updateSummary = (newText) => {
-    if (newText.includes('requirement')) {
-      setSummary((prevSummary) => [...prevSummary, newText]);
-    }
+  }
+};
+  // Navigate to the next page
+  const goToNextPage = () => {
+    navigate('/planner'); // Replace '/next-page' with the actual route
   };
 
   return (
     <div className={styles.chatPage}>
       {/* Chat Section */}
       <div className={styles.chatSection}>
-        <div className={styles.chatMessages}>
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`${styles.message} ${msg.user === 'user' ? styles.user : styles.bot}`}
-            >
-              {msg.text}
-            </div>
-          ))}
+        <div className={styles.messages}>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={msg.user === 'user' ? styles.userMessage : styles.botMessage}
+              >
+                {msg.text}
+              </div>
+            ))}
         </div>
         <div className={styles.chatInput}>
           <input
@@ -63,20 +78,15 @@ function Understand(nextClick) {
             placeholder="Type a message..."
           />
           <button onClick={sendMessage}>Send</button>
+          <button
+            className={styles.nextPageInlineButton}
+            onClick={goToNextPage}
+          >
+            Next Page
+          </button>
         </div>
-      </div>
-
-      {/* Sidebar Section */}
-      <div className={styles.sidebarSection}>
-        <h3>Requirements/Summary</h3>
-        <ul>
-          {summary.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
 }
-
 export default Understand;

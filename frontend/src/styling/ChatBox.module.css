@@ -1,112 +1,112 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-  } 
-  /* Main chat box container */
-  .chatBox {
-    position: fixed;
-    top: 20px; /* Position from the top */
-    left: 20px; /* Position from the left */
-    width: 300px;
-    max-height: 400px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    z-index: 1000;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-  
-  /* Collapsed state */
-  .chatBox.collapsed {
-    width: 80px;
-    height: 40px;
-    opacity: 0.8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Toggle button for expand/collapse */
-  .toggleButton {
-    width: 100%;
-    background-color: #0084ff;
-    color: #fff;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-  }
-  
-  /* Chat content when expanded */
-  .chatContent {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  /* Messages container */
-  .messages {
-    padding: 10px;
-    flex: 1;
-    background-color: #f5f5f5;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  /* User and bot message styling */
-  .userMessage, .botMessage {
-    padding: 8px 12px;
-    border-radius: 15px;
-    max-width: 80%;
-    word-wrap: break-word;
-    font-size: 14px;
-  }
-  
-  .userMessage {
-    align-self: flex-end;
-    background-color: #0084ff;
-    color: #fff;
-  }
-  
-  .botMessage {
-    align-self: flex-start;
-    background-color: #e5e5ea;
-    color: #333;
-  }
-  
-  /* Input container */
-  .inputContainer {
-    display: flex;
-    border-top: 1px solid #ddd;
-    padding: 10px;
-    background-color: #ffffff;
-  }
-  
-  .inputContainer input {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 8px;
-  }
-  
-  .inputContainer button {
-    padding: 10px 20px;
-    background-color: #0084ff;
-    color: white;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .inputContainer button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
+.chatBox {
+  position: static; /* Static placement within the left panel */
+  width: 100%; /* Full width of the left panel */
+  height: 50px; /* Default collapsed height */
+  background: #fff;
+  border-top: 1px solid #ccc;
+  transition: height 0.3s ease; /* Smooth expand/collapse */
+  overflow: hidden; /* Hide content when collapsed */
+}
+
+.chatBox.expanded {
+  height: 300px; /* Fixed size when expanded */
+}
+
+.chatContent {
+  height: calc(300px - 60px); /* Adjust height to fit expanded size minus the input panel */
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1; /* Allow messages to take up available space */
+  overflow-y: auto; /* Enable vertical scrolling for long chat history */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userMessage {
+  align-self: flex-end;
+  background: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 75%;
+  word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.botMessage {
+  align-self: flex-start;
+  background: #f1f1f1;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 75%;
+  word-wrap: break-word; /* Prevent long words from overflowing */
+}
+
+.inputContainer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background: #fff; /* Ensures consistent background */
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #ccc;
+}
+
+.user {
+  background-color: #e1f5fe;
+  align-self: flex-end;
+}
+
+.bot {
+  background-color: #f0f0f0;
+  align-self: flex-start;
+}
+.toggleButton {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.toggleButton:hover {
+  background: #0056b3;
+}
+
+.nextPageButton button {
+  padding: 8px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nextPageButton button:hover {
+  background-color: #0056b3;
+}
