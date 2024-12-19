@@ -34,10 +34,7 @@
     display: flex;
     align-items: center;
   }
-  .tagButton.selected {
-    border-color: black;
-    background-color: #ccc;
-  }
+  
   
   .addOwnButtom {
     margin-top: 20px;
@@ -119,4 +116,19 @@
     cursor: pointer;
     font-size: 16px;
   }
-  
+
+  /* Highlight styles for liked and disliked tags */
+  .tagButton.liked {
+    border-color: #3A7D44;
+    background-color: #d3e4d3;
+  }
+
+  .tagButton.disliked {
+    border-color: rgb(224, 55, 55);
+    background-color: #ffe0e0c7;
+  }
+
+  .tagButton.selected {
+    border-color: black;
+    background-color: #ccc;
+  }
