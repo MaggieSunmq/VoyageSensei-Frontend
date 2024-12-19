@@ -26,7 +26,6 @@
   position: relative;
 }
 
-
 /* Refresh button on top of the map */
 .refreshButton {
   position: absolute; /* Absolute positioning relative to rightPanel */

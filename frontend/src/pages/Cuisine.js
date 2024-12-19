@@ -22,7 +22,7 @@ function Cusine({ handleTagClick, selectedTags, activeTag }) {
       handleTagClick={handleTagClick}
       activeTag={activeTag}
       progress={66.67}
-      nextPage="/understand_user"
+      nextPage="/"
     />
   );
 }

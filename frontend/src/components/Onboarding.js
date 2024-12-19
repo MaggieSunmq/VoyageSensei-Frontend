@@ -9,8 +9,7 @@ function Onboarding({ title, options, selectedTags, handleTagClick, activeTag, p
     <div className={styles.container}>
       <div className={styles.leftSection}>
         <h2>{title}</h2>
-        <p>Select any of the following.</p>
-
+        <p>Select multiple tags of the following.</p>
         <div className={styles.tagContainer}>
           {options.map((option) => (
             <button
@@ -22,7 +21,6 @@ function Onboarding({ title, options, selectedTags, handleTagClick, activeTag, p
             </button>
           ))}
         </div>
-
         <div className={styles.progressContainer}>
           <div className={styles.progressBar}>
             <div className={styles.progress} style={{ width: `${progress}%` }}></div>

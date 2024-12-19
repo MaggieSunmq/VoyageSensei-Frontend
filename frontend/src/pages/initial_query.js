@@ -1,7 +1,4 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import styles from '../styling/QueryInput.module.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import styles from '../styling/QueryInput.module.css';
@@ -11,48 +8,75 @@ function Understand() {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-
-  // Voice Recognition Hook
+  const [speaking, setSpeaking] = useState(false); // Track when the bot is speaking
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-  // Append transcript when recognition stops
-  const handleVoiceInput = async () => {
-    if (transcript.trim()) {
-      const newMessage = { text: transcript, user: 'user' };
-      setMessages([...messages, newMessage]);
-      setInput(''); // Clear input box
+  // Text-to-Speech Function
+  const speak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    // Stop listening while speaking
+    utterance.onstart = () => {
+      setSpeaking(true);
+      SpeechRecognition.stopListening();
+    };
+    // Restart listening after speaking
+    utterance.onend = () => {
+      setSpeaking(false);
+      SpeechRecognition.startListening({ continuous: false });
+    };
+    speechSynthesis.speak(utterance);
+  };
+  // Function to Get Bot Reply
+  const getBotReply = (data) => {
+    if (data === "query_updated") {
+      return "Thank you for telling me your preference. It will be included for planning.";
+    } else if (typeof data === "object") {
+      return "Your trip has been generated! Please click the next page button to see the trip!";
+    } else {
+      return "Sorry, I couldn't process that. Could you try again?";
+    }
+  };
 
-      // Send transcript to backend
+  // Process Voice Input and Fetch Bot Reply
+  const processVoiceInput = async () => {
+    if (transcript.trim()) {
+      const userMessage = { text: transcript, user: 'user' };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
+
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', { query: transcript });
-        let botMessages = [];
-        if (response.data === "query_updated") {
-          botMessages.push({
-            user: 'bot',
-            text: "Thank you for telling me your preference. It will be included for planning."
-          });
-        } else if (typeof response.data === "object") {
-          botMessages.push({
-            user: 'bot',
-            text: "Your trip has been generated! Please click the next page button to see the trip!"
-          });
-        } else {
-          botMessages.push({
-            user: 'bot',
-            text: "Sorry, I couldn't process that. Could you try again?"
-          });
-        }
-        setMessages((prevMessages) => [...prevMessages, ...botMessages]);
-        resetTranscript(); // Clear transcript after sending
+
+        const botReply = getBotReply(response.data);
+        const botMessage = { user: 'bot', text: botReply };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+        speak(botReply); // Speak the bot's reply
       } catch (error) {
         console.error('Error fetching response:', error);
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { user: 'bot', text: "There was an error processing your request. Please try again later." }
-        ]);
+        const errorMessage = {
+          user: 'bot',
+          text: "There was an error processing your request. Please try again later.",
+        };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+        speak(errorMessage.text); // Speak the error message
+      } finally {
+        resetTranscript(); // Clear the transcript
       }
     }
   };
+
+  // Start Listening
+  const handleStartListening = () => {
+    SpeechRecognition.startListening({ continuous: false });
+  };
+
+  // Automatically Process Input on Transcript Update
+  useEffect(() => {
+    if (transcript.trim() && !speaking && !listening) {
+      processVoiceInput();
+    }
+  }, [transcript, listening, speaking]);
 
   // Navigate to the next page
   const goToNextPage = () => {
@@ -61,12 +85,14 @@ function Understand() {
 
   return (
     <div className={styles.chatPage}>
-      {/* Full-Width Title */}
+      {/* Page Title */}
       <div className={styles.pageTitle}>
         <h1>How Would You Like to Embark on Your Trip Today?</h1>
       </div>
+
       {/* Chat Section */}
       <div className={styles.chatSection}>
+        {/* Chat Messages */}
         <div className={styles.messages}>
           {messages.map((msg, index) => (
             <div
@@ -77,144 +103,34 @@ function Understand() {
             </div>
           ))}
         </div>
-        <div className={styles.chatInput}>
-          {/* Manual Input */}
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-          />
-          <button onClick={handleVoiceInput}>Send</button>
 
-          {/* Voice Input Buttons */}
-          <button
-            onClick={() => SpeechRecognition.startListening({ continuous: false })}
-            disabled={listening}
-          >
+        {/* Input Section */}
+        <div className={styles.chatInput}>
+          {/* Voice Input */}
+          <button onClick={handleStartListening} disabled={listening || speaking}>
             🎤 Start Voice Input
           </button>
-          <button
-            onClick={() => SpeechRecognition.stopListening()}
-            disabled={!listening}
-          >
-            ⏹ Stop
+          <button onClick={() => SpeechRecognition.stopListening()} disabled={!listening || speaking}>
+            ⏹ Stop Listening
           </button>
 
-          {/* Display Live Transcript */}
-          <div style={{ marginTop: '10px', fontStyle: 'italic', color: 'gray' }}>
-            {transcript && `You said: "${transcript}"`}
-          </div>
-
           {/* Next Page Button */}
-          <button
-            className={styles.nextPageInlineButton}
-            onClick={goToNextPage}
-          >
+          <button className={styles.nextPageInlineButton} onClick={goToNextPage}>
             Next Page
           </button>
         </div>
       </div>
-      {/* Browser Not Supported */}
+
+      {/* Fallback for Unsupported Browsers */}
       {!browserSupportsSpeechRecognition && (
-        <p>Your browser does not support voice input. Try using Chrome.</p>
+        <p className={styles.unsupportedBrowser}>
+          Your browser does not support voice input. Please try using Chrome.
+        </p>
       )}
     </div>
   );
 }
-
 export default Understand;
 
-// import axios from 'axios';
-//
-// function Understand() {
-//   const navigate = useNavigate();
-//   const [messages, setMessages] = useState([]);
-//   const [input, setInput] = useState('');
-//
-//   // Handle sending a new message
-// // Handle sending a new message
-// const sendMessage = async () => {
-//   if (input.trim()) {
-//     const newMessage = { text: input, user: 'user' };
-//     setMessages([...messages, newMessage]);
-//     setInput('');
-//
-//     // Send message to backend
-//     try {
-//       const response = await axios.post('http://127.0.0.1:5000/query', { query: input });
-//       console.log('Response data:', response.data); // Debug response data
-//
-//       // Interpret backend response
-//       let botMessages = [];
-//       if (response.data === "query_updated") {
-//         // User input is not related to recommendations
-//         botMessages.push({
-//           user: 'bot',
-//           text: "Thank you for telling me your preference. It will be included for planning."
-//         });
-//       } else if (typeof response.data === "object") {
-//         // Backend generated a trip plan
-//         botMessages.push(
-//           { user: 'bot', text: "Your trip has been generated! Please click the next page button to see the trip!" },
-//         );
-//       } else {
-//         // Fallback for unexpected backend responses
-//         botMessages.push({
-//           user: 'bot',
-//           text: "Sorry, I couldn't process that. Could you try again?"
-//         });
-//       }
-//       setMessages((prevMessages) => [...prevMessages, ...botMessages]);
-//     } catch (error) {
-//       console.error('Error fetching response:', error);
-//       setMessages((prevMessages) => [
-//         ...prevMessages,
-//         { user: 'bot', text: "There was an error processing your request. Please try again later." }
-//       ]);
-//     }
-//   }
-// };
-//   // Navigate to the next page
-//   const goToNextPage = () => {
-//     navigate('/planner'); // Replace '/next-page' with the actual route
-//   };
-//
-//   return (
-//     <div className={styles.chatPage}>
-//       {/* Full-Width Title */}
-//       <div className={styles.pageTitle}>
-//         <h1>How Would You Like to Embark on Your Trip Today?</h1>
-//       </div>
-//       {/* Chat Section */}
-//       <div className={styles.chatSection}>
-//         <div className={styles.messages}>
-//           {messages.map((msg, index) => (
-//             <div
-//               key={index}
-//               className={msg.user === 'user' ? styles.userMessage : styles.botMessage}
-//             >
-//               {msg.text}
-//             </div>
-//           ))}
-//         </div>
-//         <div className={styles.chatInput}>
-//           <input
-//             type="text"
-//             value={input}
-//             onChange={(e) => setInput(e.target.value)}
-//             placeholder="Type a message..."
-//           />
-//           <button onClick={sendMessage}>Send</button>
-//           <button
-//             className={styles.nextPageInlineButton}
-//             onClick={goToNextPage}
-//           >
-//             Next Page
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-// export default Understand;
+
+

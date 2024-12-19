@@ -4,8 +4,9 @@ import HomePage from './pages/HomePage';
 import Activities from './pages/ActivitiesPage';
 import Dietary from './pages/Dietary';
 import Cusine from './pages/Cuisine';
-import Step2 from './pages/Step2_temp';
+import Step2 from './pages/initial_query';
 import FinalPage from './pages/Trip';
+import OnboardingCentral from './pages/onboarding_centralized'
 //import './App.css';
 
 function App() {
@@ -34,10 +35,11 @@ function App() {
   // Nested AppRoutes component
   const AppRoutes = () => useRoutes([
     { path: "/", element: <HomePage handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/onboarding/Activities", element: <Activities handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    { path: "/onboarding/*", element: <OnboardingCentral /> },
+    //{ path: "/onboarding/Activities", element: <Activities handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     //{ path: "/onboarding/poi", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/onboarding/dietary", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/onboarding/cuisine", element: <Cusine handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    //{ path: "/onboarding/dietary", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
+    //{ path: "/onboarding/cuisine", element: <Cusine handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     { path: "/understand_user", element: <Step2  handleTagClick={handleTagClick} /> },
     { path: "/planner", element: <FinalPage selectedTags={selectedTags} /> },
   ]);

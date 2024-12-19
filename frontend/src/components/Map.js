@@ -6,7 +6,7 @@ import L from 'leaflet';
 import OpenRouteService from 'openrouteservice-js';
 import styles from '../styling/MapDemo.module.css';
 
-function Map() {
+function Map({ tripData }) {
   const [itinerary, setItinerary] = useState(null);
   const [route, setRoute] = useState(null); // State to store the route coordinates
 
@@ -22,69 +22,46 @@ function Map() {
     iconAnchor: [12, 34],
   });
 
-  const orsApiKey = '5b3ce3597851110001cf624808dc26b81a754916b1307d672c93cff1'; // Replace with your actual API key
-
   useEffect(() => {
-    const fetchItinerary = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/query/current_plan');
-        const data = response.data;
-        // Extract starting point and POIs
-        const starting_point = data[0];
-        const pois = data.slice(1, -1); // Exclude the duplicate ending point
-  
-        if (!starting_point.coords || pois.some((poi) => !poi.coords)) {
-          console.error("Invalid or missing coordinates for some points of interest.");
-          return;
-        }
-  
-        setItinerary({ starting_point, pois });
-  
-        // Fetch Route Using OpenRouteService
-        const client = new OpenRouteService.Directions({
-          api_key: orsApiKey,
-        });
-  
-        const coordinates = [
-          starting_point.coords,
-          ...pois.map((poi) => poi.coords),
-          starting_point.coords, // Loop back to the starting point
-        ].map((coord) => [coord[1], coord[0]]); // ORS requires [lon, lat]
-  
-        client
-          .calculate({
-            coordinates,
-            profile: 'driving-car', // Use 'foot-walking' for walking routes
-            format: 'geojson',
-          })
-          .then((response) => {
-            const routeCoordinates = response.features[0].geometry.coordinates.map(
-              (coord) => [coord[1], coord[0]] // Convert back to [lat, lon] for Leaflet
-            );
-            setRoute(routeCoordinates);
-          })
-          .catch((error) => console.error('Error fetching route from OpenRouteService:', error));
-      } catch (error) {
-        console.error('Error fetching itinerary:', error);
-      }
-    };
-  
-    fetchItinerary();
-  }, []);
-  if (!itinerary) {
-    return <div>Loading...</div>;
+    if (tripData.length === 0) return;
+    
+    const startingPoint = tripData[0];
+    const pointInterests = tripData.slice(1, -1);
+
+    if (!startingPoint.coordinates || pointInterests.some((pointInterests) => !pointInterests.coordinates)) {
+      console.error('Invalid or missing coordinates for some points of interest.');
+      return;
+    }
+
+    // Fetch Route Using OpenRouteService
+    const orsApiKey = '5b3ce3597851110001cf624808dc26b81a754916b1307d672c93cff1'; 
+    const client = new OpenRouteService.Directions({ api_key: orsApiKey });
+    const coordinates = [
+      startingPoint.coordinates,
+      ...pointInterests.map((pointInterests) => pointInterests.coordinates),
+      startingPoint.coordinates,
+    ].map((coord) => [coord[1], coord[0]]); // ORS requires [lon, lat]
+
+    client
+      .calculate({
+        coordinates,
+        profile: 'driving-car', // Use 'foot-walking' for walking routes
+        format: 'geojson',
+      })
+      .then((response) => {
+        const routeCoordinates = response.features[0].geometry.coordinates.map(
+          (coord) => [coord[1], coord[0]] // Convert back to [lat, lon] for Leaflet
+        );
+        setRoute(routeCoordinates);
+      })
+      .catch((error) => console.error('Error fetching route from OpenRouteService:', error));
+  }, [tripData]);
+
+  if (tripData.length === 0) {
+    return <p>Loading map...</p>;
   }
-
-  const { starting_point, pois } = itinerary;
-
-  // const createNumberedIcon = (number) => {
-  //   return L.divIcon({
-  //     html: `<div style="background-color: #2d8fdd; color: white; font-weight: bold; font-size: 16px; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">${number}</div>`,
-  //     className: "numbered-icon",
-  //     iconSize: [30, 30],
-  //   });
-  // };
-// Function to create a custom numbered pin icon styled like Google Maps or Apple Maps
+const starting_point = tripData[0];
+const pois = tripData.slice(1, -1);
 const createNumberedIcon = (number) => {
   return L.divIcon({
     html: `
@@ -118,14 +95,14 @@ const createNumberedIcon = (number) => {
 
   return (
     <MapContainer
-      center={starting_point.coords}
+      center={starting_point.coordinates}
       zoom={13}
       className={styles.fullHeightMap} // Use CSS Module for class
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
       {/* Starting Point Marker */}
-      <Marker position={starting_point.coords} icon={startIcon}>
+      <Marker position={starting_point.coordinates} icon={startIcon}>
         <Popup>
           <strong>{starting_point.name}</strong>
           <br />
@@ -137,7 +114,7 @@ const createNumberedIcon = (number) => {
 
       {/* POI Markers with Numbered Icons */}
       {pois.map((poi, index) => (
-        <Marker key={index} position={poi.coords} icon={createNumberedIcon(index + 1)}>
+        <Marker key={index} position={poi.coordinates} icon={createNumberedIcon(index + 1)}>
           <Popup>
             <strong>{poi.name}</strong><br />
             {poi.description}<br />
@@ -145,14 +122,13 @@ const createNumberedIcon = (number) => {
           </Popup>
         </Marker>
       ))}
-
       {/* Route Polyline */}
       {route && <Polyline positions={route} color="blue" />}
     </MapContainer>
   );
 }
 
-export default Map;
+export default Map;;
 
 
 

@@ -70,5 +70,43 @@
   margin-bottom: 10px;
 }
 
+.poiDetail {
+  margin-top: 8px; /* Add space between description and details */
+  font-size: 14px; /* Consistent font size */
+  color: #333; /* Neutral color for labels and content */
+}
+
+.poiDetail strong {
+  font-weight: 600; /* Bold labels for emphasis */
+  margin-right: 4px; /* Space after the label */
+}
+.keywordContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* Spacing between tags */
+    margin-top: 8px;
+}
+
+.keywordTag {
+    display: inline-block;
+    background-color: #f3f4f6; /* Light gray background */
+    color: #333; /* Darker text for contrast */
+    padding: 4px 8px; /* Inner spacing for the tag */
+    border-radius: 16px; /* Rounded edges */
+    font-size: 0.875rem; /* Slightly smaller text */
+    font-weight: 500; /* Medium font weight for emphasis */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #ddd; /* Border for definition */
+    cursor: default; /* Indicate these are not clickable */
+    user-select: none; /* Prevent text selection */
+    transition: all 0.2s ease-in-out;
+}
+
+.keywordTag:hover {
+    background-color: #e0e7ff; /* Light blue for hover effect */
+    border-color: #6366f1; /* Blue border on hover */
+    color: #1e3a8a; /* Dark blue text */
+}
+
 
 

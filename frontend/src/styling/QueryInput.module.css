@@ -1,19 +1,17 @@
 .chatPage {
-    display: flex;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full page height */
+  width: 100%; /* Full page width */
+  background-color: #f9f9f9; /* White background */
+}
   .chatSection {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-right: 1px solid #ddd;
-    overflow-y: auto;
-  }
-  
+  flex: 1; /* Take the remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  } 
   .chatMessages {
     flex: 1;
     margin-bottom: 10px;
@@ -21,6 +19,8 @@
   }
   
   .message {
+    flex: 1; /* Expand to fill available space */
+    overflow-y: auto; /* Enable scrolling if messages exceed the container */
     padding: 8px;
     margin-bottom: 5px;
     border-radius: 5px;
@@ -132,4 +132,43 @@
     flex-direction: column;
     gap: 8px;
   }
+  .pageTitle {
+    width: 100%; /* Full width title */
+    text-align: center;
+    background-color: #f9f9f9; /* Green background for the title */
+    color: #2d6a4f; /* White text color */
+    padding: 1rem 0; /* Padding for vertical spacing */
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  
+  .pageTitle h1 {
+    font-size: 2rem;
+    color: #2d6a4f; /* Green color for the title */
+    margin: 0;
+  }
+  
+  .pageSubtitle {
+    font-size: 1rem;
+    color: #555; /* Neutral gray for the subtitle */
+    margin-top: 0.5rem;
+  }
+  /* QueryInput.module.css */
+.microphoneButton {
+  border: none;
+  background: #ff5a5a;
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff5a5a;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.microphoneButton.listening {
+  box-shadow: 0 0 30px #ff5a5a, 0 0 60px #ff5a5a;
+}
+
   

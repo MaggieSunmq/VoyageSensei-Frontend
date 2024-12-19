@@ -15,7 +15,7 @@ function Dietary({ handleTagClick, selectedTags, activeTag }) {
 
   return (
     <Onboarding
-      title="Which of these activities looks most exciting for a day trip in Ontario?"
+      title="Which of Diatary Restrictions Apply To You?"
       options={options}
       selectedTags={selectedTags}
       handleTagClick={handleTagClick}
