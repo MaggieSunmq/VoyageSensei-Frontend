@@ -29,7 +29,7 @@
 
 .userMessage {
   align-self: flex-end;
-  background: #007bff;
+  background: #52a175;
   color: white;
   padding: 8px 12px;
   border-radius: 12px;
@@ -63,7 +63,7 @@ input {
 }
 
 button {
-  background: #007bff;
+  background: #2d6a4f;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -86,7 +86,7 @@ button:disabled {
 }
 .toggleButton {
   width: 100%;
-  background: #007bff;
+  background: #2d6a4f;
   color: white;
   padding: 10px;
   border: none;
@@ -95,12 +95,12 @@ button:disabled {
 }
 
 .toggleButton:hover {
-  background: #0056b3;
+  background: #2d6a4f;
 }
 
 .nextPageButton button {
   padding: 8px 10px;
-  background-color: #007bff;
+  background-color: #52a175;
   color: white;
   border: none;
   border-radius: 5px;
@@ -108,5 +108,5 @@ button:disabled {
 }
 
 .nextPageButton button:hover {
-  background-color: #0056b3;
+  background-color: #52a175;
 }

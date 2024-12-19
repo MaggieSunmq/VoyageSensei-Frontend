@@ -53,14 +53,14 @@
   .chatInput button {
     padding: 10px 20px;
     border: none;
-    background-color: #007bff;
+    background-color: #2d6a4f;
     color: white;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .chatInput button:hover {
-    background-color: #0056b3;
+    background-color: #2d6a4f;
   }
   
   .sidebarSection {
@@ -95,7 +95,7 @@
   
   .nextPageButton button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #2d6a4f;
     color: white;
     border: none;
     border-radius: 5px;
@@ -103,11 +103,11 @@
   }
   
   .nextPageButton button:hover {
-    background-color: #0056b3;
+    background-color: #2d6a4f;
   }
   .userMessage {
     align-self: flex-end;
-    background: #007bff;
+    background: #52a175;
     color: white;
     padding: 8px 12px;
     border-radius: 12px;
@@ -133,11 +133,11 @@
     gap: 8px;
   }
   .pageTitle {
-    width: 100%; /* Full width title */
+    width: 100%;
     text-align: center;
-    background-color: #f9f9f9; /* Green background for the title */
-    color: #2d6a4f; /* White text color */
-    padding: 1rem 0; /* Padding for vertical spacing */
+    background-color: #f9f9f9;
+    color: #2d6a4f;
+    padding: 1rem 0;
     font-size: 1.5rem;
     font-weight: bold;
   }

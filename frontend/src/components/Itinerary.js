@@ -36,12 +36,19 @@ function Itinerary({ tripData}) {
                     <div>
                         <strong>Estimated Duration:</strong> <span className={styles.poiInfo}>{poi.duration}</span>
                     </div>
-                    {/* <strong>Keywords:</strong>*/}
-                    <div className={styles.keywordContainer}>
+                    {/*<strong>Keywords:</strong>*/}
+                    {poi.keywords && poi.keywords.length > 0 && (
+                        <div className={styles.keywordContainer}>
+                            {poi.keywords.map((keyword, index) => (
+                            <span key={index} className={styles.keywordTag}>{keyword}</span>
+                        ))}
+                        </div>
+                    )}
+                    {/*<div className={styles.keywordContainer}>
                         {poi.keywords.map((keyword, index) => (
                             <span key={index} className={styles.keywordTag}>{keyword}</span>
                         ))}
-                    </div>
+                    </div>*/}
                 </div>
             </div>
             ))}
