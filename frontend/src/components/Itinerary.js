@@ -26,25 +26,25 @@ function Itinerary({ tripData}) {
       {/* POIs */}
       <div className={styles.poiList}>
         {pois.map((poi, index) => (
-          <div key={index} className={`${styles.poiCard} ${styles.poi}`}>
-            <h3>{index + 1}. {poi.name}</h3>
-              {/*<p className={styles.poiSubtitle}>{poi.description}</p>*/}
-              <div className={styles.poiDetail}>
-                  <div>
-                      <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
-                  </div>
-                  <div>
-                      <strong>Estimated Duration:</strong> <span className={styles.poiInfo}>{poi.duration}</span>
-                  </div>
-                  {/* <strong>Keywords:</strong>*/}
-                  <div className={styles.keywordContainer}>
-                      {poi.keywords.map((keyword, index) => (
-                          <span key={index} className={styles.keywordTag}>{keyword}</span>
-                      ))}
-                  </div>
-              </div>
-          </div>
-        ))}
+            <div key={index} className={`${styles.poiCard} ${styles.poi}`}>
+                <h3>{index + 1}. {poi.name}</h3>
+                {/*<p className={styles.poiSubtitle}>{poi.description}</p>*/}
+                <div className={styles.poiDetail}>
+                    <div>
+                        <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
+                    </div>
+                    <div>
+                        <strong>Estimated Duration:</strong> <span className={styles.poiInfo}>{poi.duration}</span>
+                    </div>
+                    {/* <strong>Keywords:</strong>*/}
+                    <div className={styles.keywordContainer}>
+                        {poi.keywords.map((keyword, index) => (
+                            <span key={index} className={styles.keywordTag}>{keyword}</span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            ))}
       </div>
     </div>
   );

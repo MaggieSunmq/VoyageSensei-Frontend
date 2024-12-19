@@ -29,10 +29,10 @@ function Understand() {
   };
   // Function to Get Bot Reply
   const getBotReply = (data) => {
-    if (data === "query_updated") {
-      return "Thank you for telling me your preference. It will be included for planning.";
+    if (typeof data === "string") {
+      return data;
     } else if (typeof data === "object") {
-      return "Your trip has been generated! Please click the next page button to see the trip!";
+      return "Your trip has been generated! Please click the next page button to see the trip! Feel free to let me know if you like it or not!";
     } else {
       return "Sorry, I couldn't process that. Could you try again?";
     }

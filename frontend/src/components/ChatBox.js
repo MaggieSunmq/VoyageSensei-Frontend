@@ -76,8 +76,8 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
   };
   // Function to Get Bot Reply
   const getBotReply = (data) => {
-    if (data === "query_updated") {
-      return "Thank you for telling me your preference. It will be noted down for future planning.";
+    if (typeof data === "string") {
+      return data;
     } else if (typeof data === "object") {
       notifyUpdate();
       return "Your trip has been generated!";
