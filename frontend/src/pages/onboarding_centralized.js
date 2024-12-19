@@ -29,7 +29,7 @@ const OnboardingCentral = () => {
         { id: 11, name: "Scenic Views", emoji: "🌊", image: "/images/niagara_falls.webp" },
       ],
       progress: 0,
-      dualSection: false, 
+      dualSection: false,
     },
     {
       id: 2,
@@ -45,7 +45,7 @@ const OnboardingCentral = () => {
         { id: 30, name: "Halal", emoji: "🕌", image: "/images/halal.jpg" },
       ],
       progress: 33.33,
-      dualSection: false, 
+      dualSection: false,
     },
     {
       id: 3,
@@ -63,7 +63,7 @@ const OnboardingCentral = () => {
         { id: 40, name: "Local & Regional", emoji: "🏠", image: "/images/local_regional.webp" },
       ],
       progress: 66.67,
-      dualSection: true, 
+      dualSection: true,
     },
   ];
 
@@ -84,7 +84,7 @@ const OnboardingCentral = () => {
           : [...prev, tag]
       );
     }
-  
+
     // Always update the activeTag to the clicked tag
     setActiveTag((prev) => (prev && prev.id === tag.id ? null : tag));
     console.log("Active Tag:", tag);
@@ -146,7 +146,7 @@ const OnboardingCentral = () => {
                     onClick={() => handleTagClick(option, "liked")}
                     className={`${styles.tagButton} ${
                       likedTags.some((tag) => tag.id === option.id)
-                        ? styles.liked
+                        ? styles.selected
                         : ""
                     }`}
                   >
@@ -166,7 +166,7 @@ const OnboardingCentral = () => {
                     onClick={() => handleTagClick(option, "disliked")}
                     className={`${styles.tagButton} ${
                       dislikedTags.some((tag) => tag.id === option.id)
-                        ? styles.disliked
+                        ? styles.selected
                         : ""
                     }`}
                   >
@@ -235,3 +235,4 @@ const OnboardingCentral = () => {
 };
 
 export default OnboardingCentral;
+
