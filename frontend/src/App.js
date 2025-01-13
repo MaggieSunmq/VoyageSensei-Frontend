@@ -5,9 +5,10 @@ import Activities from './pages/ActivitiesPage';
 import Dietary from './pages/Dietary';
 import Cusine from './pages/Cuisine';
 import Step2 from './pages/initial_query';
-import FinalPage from './pages/Trip';
+import TripA from './pages/Trip';
+import TripB from './pages/Trip_B';
 import OnboardingCentral from './pages/onboarding_centralized'
-//import './App.css';
+import './App.css';
 
 function App() {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -25,8 +26,8 @@ function App() {
   const handleTagClick = (option) => {
     const isAlreadySelected = selectedTags.some((tag) => tag.id === option.id);
     const newTags = isAlreadySelected
-      ? selectedTags.filter((tag) => tag.id !== option.id)
-      : [...selectedTags, option];
+        ? selectedTags.filter((tag) => tag.id !== option.id)
+        : [...selectedTags, option];
     setSelectedTags(newTags);
     setActiveTag(isAlreadySelected ? null : option);
     console.log("Updated selectedTags:", newTags);
@@ -34,20 +35,23 @@ function App() {
 
   // Nested AppRoutes component
   const AppRoutes = () => useRoutes([
-    { path: "/", element: <HomePage handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/onboarding/*", element: <OnboardingCentral /> },
+    {path: "/", element: <HomePage handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}/>},
+    {path: "/onboarding/*", element: <OnboardingCentral/>},
     //{ path: "/onboarding/Activities", element: <Activities handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     //{ path: "/onboarding/poi", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     //{ path: "/onboarding/dietary", element: <Dietary handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
     //{ path: "/onboarding/cuisine", element: <Cusine handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}  /> },
-    { path: "/understand_user", element: <Step2  handleTagClick={handleTagClick} /> },
-    { path: "/planner", element: <FinalPage selectedTags={selectedTags} /> },
+    {path: "/understand_user", element: <Step2 handleTagClick={handleTagClick}/>},
+    {path: "/planner", element: <TripA selectedTags={selectedTags}/>},
+    {path: "/plannerB", element: <TripB selectedTags={selectedTags}/>},
   ]);
 
   return (
-    <BrowserRouter>
-      <AppRoutes/>
-    </BrowserRouter>
+      <div className="app-container">
+        <BrowserRouter>
+          <AppRoutes/>
+        </BrowserRouter>
+      </div>
   );
 }
 export default App;

@@ -19,6 +19,7 @@ import axios from 'axios';
     const fetchTripData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:5000/query/current_plan');
+        //const response = await axios.get('http://127.0.0.1:5000/test');
         const tmp = response.data;
         const data = tmp.poi_sequence || [];
         console.log(data);
@@ -95,15 +96,13 @@ import axios from 'axios';
   //   setIsUpdating(true); // Start polling when notified by ChatBox
   // };
   return (
-    <div className={styles.content}>
+       <div className={styles.content}>
 
       {/* Left Panel: Itinerary and ChatBox */}
       <div className={styles.leftPanel}>
-        {/* Itinerary Section */}
         <div
             className={styles.tripDetails}
             style={{
-              // Dynamically adjust height based on fixed chatbox size
               height: isChatBoxExpanded ? 'calc(100% - 250px)' : 'calc(100% - 50px)',
             }}
         >
@@ -112,7 +111,6 @@ import axios from 'axios';
           <Itinerary tripData={tripData}/>
         </div>
 
-        {/* ChatBox Section */}
         <div className={styles.chatBoxContainer}>
         <ChatBox
             isExpanded={isChatBoxExpanded}
@@ -121,11 +119,9 @@ import axios from 'axios';
           />
         </div>
       </div>
-
-      {/* Right Panel: Map */}
-      <div className={styles.rightPanel}>
-        <Map tripData={tripData} />
-      </div>
+         <div className={styles.rightPanel}>
+            <Map tripData={tripData} />
+         </div>
     </div>
   );
 }

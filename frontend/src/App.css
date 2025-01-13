@@ -1,11 +1,27 @@
-.App {
-  text-align: center;
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5; /* Background for contrast */
+    width: 100vw;
+    height: 100vh;
+    overflow: auto; /* Allow scrolling if the content overflows */
 }
 
-.content {
-  display: flex;
-  margin-top: 20px;
+.app-container {
+    width: 1920px; /* Fixed width */
+    height: 760px; /* Fixed height */
+    background-color: #fff; /* App background */
+    overflow: hidden; /* Prevent internal content overflow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    transform: scale(0.7);
+    position: relative; /* Ensure proper placement within the body */
 }
+
+
+
 /* .chat-box, .itinerary {
   margin-bottom: 20px;
 } */

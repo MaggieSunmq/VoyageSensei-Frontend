@@ -6,7 +6,7 @@
 
 /* Left panel containing Itinerary and ChatBox */
 .leftPanel {
-  width: 35%; /* Adjust width as needed */
+  width: 30%; /* Adjust width as needed */
   display: flex;
   flex-direction: column; /* Stack itinerary and chatbox vertically */
   background-color: #ffffff;
@@ -22,7 +22,7 @@
 
 /* Right panel containing the map */
 .rightPanel {
-  width: 65%;
+  width: 70%;
   position: relative;
 }
 
@@ -148,18 +148,3 @@
   font-weight: bold;
   color: #333;
 }
-
-.custom-tooltip {
-    font-size: 2rem; /* Adjust font size for tooltip text */
-    font-weight: normal; /* Optional: Set text weight */
-    color: #000; /* Optional: Tooltip text color */
-    background-color: #fff; /* Optional: Tooltip background */
-    padding: 5px; /* Optional: Add padding for better spacing */
-    border-radius: 5px; /* Optional: Add rounded corners */
-}
-
-.custom-tooltip strong {
-    font-size: 2rem; /* Adjust size for bold text */
-    color: #ff5722; /* Optional: Change color for <strong> text */
-}
-

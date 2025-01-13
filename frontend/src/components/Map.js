@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import {MapContainer, TileLayer, Marker, Popup, Polyline, Tooltip} from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -34,7 +34,7 @@ function Map({ tripData }) {
     }
 
     // Fetch Route Using OpenRouteService
-    const orsApiKey = '5b3ce3597851110001cf624808dc26b81a754916b1307d672c93cff1'; 
+    const orsApiKey = '5b3ce3597851110001cf6248d08b8e3af0984f6199a1967740834834';
     const client = new OpenRouteService.Directions({ api_key: orsApiKey });
     const coordinates = [
       startingPoint.coordinates,
@@ -96,30 +96,21 @@ const createNumberedIcon = (number) => {
   return (
     <MapContainer
       center={starting_point.coordinates}
-      zoom={13}
+      zoom={13.5}
       className={styles.fullHeightMap} // Use CSS Module for class
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
       {/* Starting Point Marker */}
       <Marker position={starting_point.coordinates} icon={startIcon}>
-        <Popup>
-          <strong>{starting_point.name}</strong>
-          <br />
-          {starting_point.description}
-          <br />
-          {starting_point.location}
-        </Popup>
       </Marker>
 
       {/* POI Markers with Numbered Icons */}
       {pois.map((poi, index) => (
         <Marker key={index} position={poi.coordinates} icon={createNumberedIcon(index + 1)}>
-          <Popup>
+          <Tooltip direction="top" offset={[0, -35]} permanent className="custom-tooltip">
             <strong>{poi.name}</strong><br />
-            {poi.description}<br />
-            {poi.location}
-          </Popup>
+          </Tooltip>
         </Marker>
       ))}
       {/* Route Polyline */}
@@ -128,7 +119,7 @@ const createNumberedIcon = (number) => {
   );
 }
 
-export default Map;;
+export default Map;
 
 
 

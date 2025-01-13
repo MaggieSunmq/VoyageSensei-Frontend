@@ -5,22 +5,9 @@ import styles from '../styling/HomePage.module.css'; // Importing as a CSS modul
 
 function HomePage() {
   const navigate = useNavigate();
-  const backgroundImageStyle = {
-    backgroundColor: '#2d6a4f', // Fallback color
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-    width: '100vw',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: -1,
-    opacity: 0.8, // Adjusted opacity for visibility
-  };
 
   return (
     <div className={styles.page}>
-      <div style={backgroundImageStyle}></div>
 
       {/* Main content */}
       <div className={styles.content}>

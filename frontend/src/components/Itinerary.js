@@ -13,12 +13,12 @@ function Itinerary({ tripData}) {
   return (
     <div className={styles.itinerary}>
       {/* Starting Point */}
-      {startingPoint && (
+        {/*{startingPoint && (
         <div className={`${styles.poiCard} ${styles.startingPoint}`}>
           <h3>Starting Point</h3>
           <p>{startingPoint.address}</p>
         </div>
-      )}
+      )}*/}
   
       {/* Separator */}
       <div className={styles.separator}></div>

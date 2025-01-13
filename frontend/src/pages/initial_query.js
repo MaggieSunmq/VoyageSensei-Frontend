@@ -6,13 +6,14 @@ import axios from 'axios';
 
 function Understand() {
   const navigate = useNavigate();
+  const [tripGenerated, setTripGenerated] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [speaking, setSpeaking] = useState(false); // Track when the bot is speaking
   const { transcript, listening, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
   // Text-to-Speech Function
-  const speak = (text) => {
+  const speak = (text,isTripGenerated = tripGenerated) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     // Stop listening while speaking
@@ -23,7 +24,9 @@ function Understand() {
     // Restart listening after speaking
     utterance.onend = () => {
       setSpeaking(false);
-      SpeechRecognition.startListening({ continuous: false });
+      if (!isTripGenerated) {
+        SpeechRecognition.startListening({ continuous: false });
+      }
     };
     speechSynthesis.speak(utterance);
   };
@@ -44,13 +47,16 @@ function Understand() {
     if (transcript.trim()) {
       const userMessage = { text: transcript, user: 'user' };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
-
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', { query: transcript });
         const botReply = getBotReply(response.data);
+        const isTripGenerated = typeof response.data === "object";
+        if (isTripGenerated) {
+          setTripGenerated(true);
+        }
         const botMessage = { user: 'bot', text: botReply };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
-        speak(botReply); // Speak the bot's reply
+        speak(botReply,isTripGenerated); // Speak the bot's reply
       } catch (error) {
         console.error('Error fetching response:', error);
         const errorMessage = {
