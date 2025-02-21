@@ -9,7 +9,7 @@ backend:
 frontend:
 1. go to the frontend dir
 2. npm install
-(let me know if this not working)
+(if npm is not installed on your device, please visit this site: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#overview)
 
 How to run:
 
