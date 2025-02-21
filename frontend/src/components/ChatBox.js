@@ -119,6 +119,7 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
     if (transcript.trim()) {
       const userMessage = {text: transcript, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
+      setLoading(true);
       setProcessingMessage("Processing request...");
 
       try {
@@ -139,6 +140,7 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
         speak(errorMessage.text); // Speak the error message
       } finally {
         resetTranscript(); // Clear the transcript
+        setLoading(false);
       }
     }
   };
