@@ -18,7 +18,7 @@ function HomePage() {
         </div>
 
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate('/onboarding/Activities')} className={styles.actionButton}>
+          <button onClick={() => navigate('/onboarding/Activities') } className={styles.actionButton} disabled >
             Build Your Profile
           </button>
           <button onClick={() => navigate('/understand_user')} className={styles.actionButton}>
