@@ -58,27 +58,26 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
   const [loading, setLoading] = useState(false);
   const [speaking, setSpeaking] = useState(false); // Track when the bot is speaking
   const {transcript, listening, resetTranscript,} = useSpeechRecognition();
-  const [processingMessage, setProcessingMessage] = useState("");
+  //const [processingMessage, setProcessingMessage] = useState("");
 
-  // Text-to-Speech Function
   const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    // Stop listening while speaking
     utterance.onstart = () => {
       setSpeaking(true);
       SpeechRecognition.stopListening();
     };
-    // Restart listening after speaking
     utterance.onend = () => {
       setSpeaking(false);
-      //SpeechRecognition.startListening({continuous: false});
     };
     speechSynthesis.speak(utterance);
   };
   // Function to Get Bot Reply
   const getBotReply = (data) => {
-    if (typeof data === "string") {
+    if (data === null) {
+      return "System bug return null"
+    }
+    else if (typeof data === "string") {
       return data;
     } else if (typeof data === "object") {
       notifyUpdate();
@@ -92,10 +91,10 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
       const userMessage = {text: inputText, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setLoading(true);
-      setProcessingMessage("Processing request...");
+      //setProcessingMessage("Processing request...");
       setInputText('');
       try {
-        const response = await axios.post('http://127.0.0.1:5000/query', {query: inputText});
+        const response = await axios.post('http://127.0.0.1:5000/critique', {query: inputText});
         const botReply = getBotReply(response.data);
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
@@ -120,8 +119,7 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
       const userMessage = {text: transcript, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setLoading(true);
-      setProcessingMessage("Processing request...");
-
+      //setProcessingMessage("Processing request...");
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', {query: transcript});
 
@@ -173,12 +171,8 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
         <button className={styles.toggleButton} onClick={toggleExpand}>
           {isExpanded ? 'Critique' : 'Critique'}
         </button>
-
-
-        {/* Chat Content */}
         {isExpanded && (
             <div className={styles.chatContent}>
-              {/* Chat History */}
               <div className={styles.messages}>
                 {messages.map((msg, index) => (
                     <div
@@ -203,7 +197,6 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
                     onChange={(e) => setInputText(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type your message here..."
-                    className={styles.textInputBox}
                     disabled={loading}
                     style={{fontSize: '16px', padding: '10px'}} // Updated styling
                 />

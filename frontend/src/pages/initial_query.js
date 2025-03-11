@@ -6,16 +6,15 @@ import axios from 'axios';
 
 function Understand() {
   const navigate = useNavigate();
-  const [tripGenerated, setTripGenerated] = useState(false);
+  //const [tripGenerated, setTripGenerated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [speaking, setSpeaking] = useState(false);
-  const {transcript, listening, resetTranscript, browserSupportsSpeechRecognition} = useSpeechRecognition();
-  //const [tripGenerating, setTripGenerating] = useState(false);
-  const [processingMessage, setProcessingMessage] = useState("");
+  const {transcript, listening, resetTranscript} = useSpeechRecognition();
+  //const [processingMessage, setProcessingMessage] = useState("");
 
-  const speak = (text, isTripGenerated = tripGenerated) => {
+  const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     utterance.onstart = () => {
@@ -33,7 +32,9 @@ function Understand() {
   const getBotReply = (data) => {
     console.log(data)
     if (typeof data === "string") {
-      return data;
+      return data;}
+    else if (data === null) {
+      return "System bug return null"
     } else if (typeof data === "object") {
       return "Your trip has been generated! Please take a look! Feel free to let me know if you like it or not!";
     } else {
@@ -45,20 +46,22 @@ function Understand() {
       const userMessage = {text: inputText, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setLoading(true);
-      setProcessingMessage("Processing request...");
-      setInputText('')
+      //setProcessingMessage("Processing request...");
+      setInputText('');
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', {query: inputText});
         const botReply = getBotReply(response.data);
-        const isTripGenerated = typeof response.data === "object";
+        console.log(response.data);
+        console.log (typeof response.data);
+        const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
-          setTripGenerated(true);
+          //setTripGenerated(true);
           navigate('/planner')
-
         }
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         speak(botReply);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching response:', error);
         const errorMessage = {
@@ -67,25 +70,25 @@ function Understand() {
         };
         setMessages((prevMessages) => [...prevMessages, errorMessage]);
         speak(errorMessage.text);
-      } finally {
         setLoading(false);
       }
     }
   };
-
   const processVoiceInput = async (voiceText) => {
     if (voiceText.trim()) {
       const userMessage = {text: voiceText, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setLoading(true);
-      setProcessingMessage("Processing request...");
+      //setProcessingMessage("Processing request...");
+      resetTranscript();
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', {query: voiceText});
         const botReply = getBotReply(response.data);
         const isTripGenerated = typeof response.data === "object";
         if (isTripGenerated) {
-          setTripGenerated(true);
+          //setTripGenerated(true);
           navigate('/planner')
+          setLoading(false);
           //setProcessingMessage("Generating your trip, please wait...");
         }
         const botMessage = {user: 'bot', text: botReply};
@@ -99,7 +102,6 @@ function Understand() {
         };
         setMessages((prevMessages) => [...prevMessages, errorMessage]);
         speak(errorMessage.text);
-      } finally {
         resetTranscript();
         setLoading(false);
       }
@@ -137,42 +139,31 @@ function Understand() {
           <h1>How Would You Like to Embark on Your Trip Today?</h1>
         </div>
 
-        {/* Chat Section */}
         <div className={styles.chatSection}>
-          {/* Chat Messages */}
           <div className={styles.messages}>
             {messages.map((msg, index) => (
                 <div
                     key={index}
-                    className={msg.user === 'user' ? styles.userMessage : styles.botMessage}
-                >
+                    className={msg.user === 'user' ? styles.userMessage : styles.botMessage}>
                   {msg.text}
                 </div>
             ))}
           </div>
-
-          {/* Processing Message */}
           {(loading) && (
               <div className={styles.processingContainer}>
                 {/*<p className={styles.processingMessage}>{processingMessage}</p>*/}
                 <div className={styles.loader}></div>
               </div>
             )}
-
-          {/* Input Section */}
           <div className={styles.chatInput}>
             <input
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type your message here..."
-              className={styles.textInputBox}
               disabled={loading}
-              style={{fontSize: '16px', padding: '10px'}} // Updated styling
-            />
+              style={{fontSize: '16px', padding: '10px'}}/>
             <button onClick={handleTextSubmit} disabled={loading || speaking}>Send</button>
-
-            {/* Voice Input */}
             <button onClick={handleStartListening} disabled={listening || speaking || loading}>
               🎤 Start Voice Input
             </button>
@@ -182,13 +173,6 @@ function Understand() {
             </button>
           </div>
         </div>
-
-        {/* Fallback for Unsupported Browsers */}
-        {!browserSupportsSpeechRecognition && (
-            <p className={styles.unsupportedBrowser}>
-              Your browser does not support voice input. Please try using Chrome.
-            </p>
-        )}
       </div>
   );
 }

@@ -84,7 +84,6 @@ const OnboardingCentral = () => {
           : [...prev, tag]
       );
     }
-
     // Always update the activeTag to the clicked tag
     setActiveTag((prev) => (prev && prev.id === tag.id ? null : tag));
     console.log("Active Tag:", tag);

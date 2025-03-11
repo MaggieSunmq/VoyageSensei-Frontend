@@ -3,58 +3,112 @@ import axios from 'axios';
 import styles from "../styling/PlanLayout.module.css"
 
 
-function Itinerary({ tripData}) {
+function Itinerary({ tripData, travelDuration}) {
   if (!tripData || tripData.length === 0) {
     return <p>Loading itinerary...</p>;
   }
   // Extract the starting point and POIs
   const startingPoint = tripData[0]; // First element is the starting point
+  const startDuration = travelDuration[0];
+  const returnDuration = travelDuration[travelDuration.length - 1]; // ✅ Correct way to get the last item
+  const poiDurations = travelDuration.slice(1, travelDuration.length - 1); // ✅ Get all in-between travel times
   const pois = tripData.slice(1, -1); // Remove the first and last elements
   return (
-    <div className={styles.itinerary}>
-      {/* Starting Point */}
-        {/*{startingPoint && (
-        <div className={`${styles.poiCard} ${styles.startingPoint}`}>
-          <h3>Starting Point</h3>
-          <p>{startingPoint.address}</p>
-        </div>
-      )}*/}
-  
-      {/* Separator */}
-      <div className={styles.separator}></div>
-  
-      {/* POIs */}
-      <div className={styles.poiList}>
-        {pois.map((poi, index) => (
-            <div key={index} className={`${styles.poiCard} ${styles.poi}`}>
-                <h3>{index + 1}. {poi.name}</h3>
-                {/*<p className={styles.poiSubtitle}>{poi.description}</p>*/}
-                <div className={styles.poiDetail}>
-                    <div>
-                        <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
-                    </div>
-                    <div>
-                        <strong>Estimated Duration:</strong> <span className={styles.poiInfo}>{poi.duration}</span>
-                    </div>
-                    {/*<strong>Keywords:</strong>*/}
-                    {poi.keywords && poi.keywords.length > 0 && (
-                        <div className={styles.keywordContainer}>
-                            {poi.keywords.map((keyword, index) => (
-                            <span key={index} className={styles.keywordTag}>{keyword}</span>
-                        ))}
-                        </div>
-                    )}
-                    {/*<div className={styles.keywordContainer}>
-                        {poi.keywords.map((keyword, index) => (
-                            <span key={index} className={styles.keywordTag}>{keyword}</span>
-                        ))}
-                    </div>*/}
-                </div>
-            </div>
-            ))}
+      <div className={styles.itinerary}>
+          {/* Starting Point */}
+          {startingPoint && (
+              <div className={`${styles.poiCard} ${styles.startingPoint}`}>
+                  <h3>Starting Point</h3>
+                  <p>{startingPoint.address}</p>
+              </div>
+          )}
+          <p>🚗 Travel Time: {startDuration} min</p>
+
+          {/* Separator */}
+          <div className={styles.separator}></div>
+
+          {/* POIs with Travel Times */}
+          <div className={styles.poiList}>
+              {pois.map((poi, index) => (
+                  <div key={index}>
+                      {/* POI Card */}
+                      <div className={`${styles.poiCard} ${styles.poi}`}>
+                          <h3>{index + 1}. {poi.name}</h3>
+                          <div className={styles.poiDetail}>
+                              <div>
+                                  <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
+                              </div>
+                              <div>
+                                  <strong>Estimated Duration:</strong> <span
+                                  className={styles.poiInfo}>{poi.duration}</span>
+                              </div>
+                              {poi.keywords && poi.keywords.length > 0 && (
+                                  <div className={styles.keywordContainer}>
+                                      {poi.keywords.map((keyword, index) => (
+                                          <span key={index} className={styles.keywordTag}>{keyword}</span>
+                                      ))}
+                                  </div>
+                              )}
+                          </div>
+                      </div>
+
+                      {/* Travel Time Separator (Except After the Last POI) */}
+                      {index < pois.length - 1 && (
+                          <div>
+                              <p>🚗 Travel Time: {poiDurations[index]} min</p>
+                          </div>
+                      )}
+                  </div>
+              ))}
+              <p>🚗 Returning back: {startDuration} min</p>
+          </div>
       </div>
-    </div>
   );
+    // return (
+    //   <div className={styles.itinerary}>
+  //     {/* Starting Point */}
+  //       {/*{startingPoint && (
+  //       <div className={`${styles.poiCard} ${styles.startingPoint}`}>
+  //         <h3>Starting Point</h3>
+  //         <p>{startingPoint.address}</p>
+  //       </div>
+  //     )}*/}
+  //
+  //     {/* Separator */}
+  //     <div className={styles.separator}></div>
+  //
+  //     {/* POIs */}
+  //     <div className={styles.poiList}>
+  //       {pois.map((poi, index) => (
+  //           <div key={index} className={`${styles.poiCard} ${styles.poi}`}>
+  //               <h3>{index + 1}. {poi.name}</h3>
+  //               {/*<p className={styles.poiSubtitle}>{poi.description}</p>*/}
+  //               <div className={styles.poiDetail}>
+  //                   <div>
+  //                       <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
+  //                   </div>
+  //                   <div>
+  //                       <strong>Estimated Duration:</strong> <span className={styles.poiInfo}>{poi.duration}</span>
+  //                   </div>
+  //                   {/*<strong>Keywords:</strong>*/}
+  //                   {poi.keywords && poi.keywords.length > 0 && (
+  //                       <div className={styles.keywordContainer}>
+  //                           {poi.keywords.map((keyword, index) => (
+  //                           <span key={index} className={styles.keywordTag}>{keyword}</span>
+  //                       ))}
+  //                       </div>
+  //                   )}
+  //                   {/*<div className={styles.keywordContainer}>
+  //                       {poi.keywords.map((keyword, index) => (
+  //                           <span key={index} className={styles.keywordTag}>{keyword}</span>
+  //                       ))}
+  //                   </div>*/}
+  //               </div>
+  //           </div>
+  //           ))}
+  //     </div>
+  //   </div>
+  // );
 }
 
 export default Itinerary;

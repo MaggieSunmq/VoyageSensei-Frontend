@@ -14,7 +14,8 @@ import axios from 'axios';
     const [tripData, setTripData] = useState([]);
     const [tripSummary, setTripSummary] = useState([]);
     const [isChatBoxExpanded, setIsChatBoxExpanded] = useState(false); 
-    const [isInitialLoad, setIsInitialLoad] = useState(true); // Track initial load
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const [travelDuration, setTravelDuration] = useState([]);
   
     const fetchTripData = async () => {
       try {
@@ -48,6 +49,8 @@ import axios from 'axios';
       console.log('ChatBox triggered an update. Fetching new trip data...');
       fetchTripData(); // Fetch data when notified by ChatBox
     };
+
+
 
 
   // const fetchTripData = async () => {
@@ -108,7 +111,8 @@ import axios from 'axios';
         >
           <h2>Trip Plan Details</h2>
           <strong>Trip Summary:</strong> {tripSummary}
-          <Itinerary tripData={tripData}/>
+          <Itinerary tripData={tripData}
+                     travelDuration = {travelDuration}/>
         </div>
 
         <div className={styles.chatBoxContainer}>
@@ -120,7 +124,8 @@ import axios from 'axios';
         </div>
       </div>
          <div className={styles.rightPanel}>
-            <Map tripData={tripData} />
+            <Map tripData={tripData}
+                 setDuration = {setTravelDuration}/>
          </div>
     </div>
   );
