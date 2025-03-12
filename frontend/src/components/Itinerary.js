@@ -12,7 +12,8 @@ function Itinerary({ tripData, travelDuration}) {
   const startDuration = travelDuration[0];
   const returnDuration = travelDuration[travelDuration.length - 1]; // ✅ Correct way to get the last item
   const poiDurations = travelDuration.slice(1, travelDuration.length - 1); // ✅ Get all in-between travel times
-  const pois = tripData.slice(1, -1); // Remove the first and last elements
+  const pois = tripData.slice(1, -1); // Remove the first and last element
+  console.log(pois);
   return (
       <div className={styles.itinerary}>
           {/* Starting Point */}
@@ -47,6 +48,11 @@ function Itinerary({ tripData, travelDuration}) {
                                       {poi.keywords.map((keyword, index) => (
                                           <span key={index} className={styles.keywordTag}>{keyword}</span>
                                       ))}
+                                  </div>
+                              )}
+                              {poi.event["Event Found"] === 'Yes' && (
+                                  <div className={styles.keywordContainer}>
+                                      <span key={index} className={styles.eventTag}>{"Event: " + poi.event["Event Name"]}</span>
                                   </div>
                               )}
                           </div>

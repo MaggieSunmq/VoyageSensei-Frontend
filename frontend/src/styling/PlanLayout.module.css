@@ -109,5 +109,25 @@
     color: #1e3a8a; /* Dark blue text */
 }
 
+.eventTag {
+    display: inline-block;
+    background-color: #d4edda; /* Light gray background */
+    color: #333; /* Darker text for contrast */
+    padding: 4px 8px; /* Inner spacing for the tag */
+    border-radius: 16px; /* Rounded edges */
+    font-size: 1.1rem; /* Slightly smaller text */
+    font-weight: 500; /* Medium font weight for emphasis */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #d4edda; /* Border for definition */
+    cursor: default; /* Indicate these are not clickable */
+    user-select: none; /* Prevent text selection */
+    transition: all 0.2s ease-in-out;
+}
+
+.eventTag:hover {
+background-color: #d1fae5; /* Light green for hover effect */
+border-color: #10b981; /* Green border on hover */
+color: #065f46; /* Dark green text */
+}
 
 

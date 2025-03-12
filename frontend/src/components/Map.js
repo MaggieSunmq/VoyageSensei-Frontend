@@ -91,17 +91,17 @@ function Map({ tripData, setDuration }) {
       .then((data) => {
         if (data.routes && data.routes.length > 0) {
           const routeData = data.routes[0];
-
           // Decode polyline
-          const routeCoordinates = decodePolyline(routeData.polyline.encodedPolyline);
+          const routeCoordinates = getSegmentsWithColors(routeData.legs);
+          //const segments = getSegmentsWithColors(routeCoordinates);
           const segmentDurations = routeData.legs.map((leg) => {
             const durationInSeconds = parseInt(leg.duration.replace("s", ""), 10);
             return Math.ceil(durationInSeconds / 60);});
           // Extract travel times per segment
-
           console.log(routeData.legs[0]["duration"])
           console.log(segmentDurations)
           setRoute(routeCoordinates);
+          console.log(routeCoordinates);
           setTravelTime(segmentDurations);
           setDuration(segmentDurations);
         } else {
@@ -112,43 +112,107 @@ function Map({ tripData, setDuration }) {
   }, [tripData]);
 
   // Decode Google Polyline
-  function decodePolyline(encoded) {
+function decodePolyline(encoded) {
     let index = 0,
-      lat = 0,
-      lng = 0,
-      coordinates = [];
+        lat = 0,
+        lng = 0,
+        coordinates = [];
 
     while (index < encoded.length) {
-      let shift = 0,
+        let shift = 0,
+            result = 0;
+        let byte;
+
+        do {
+            byte = encoded.charCodeAt(index++) - 63;
+            result |= (byte & 0x1f) << shift;
+            shift += 5;
+        } while (byte >= 0x20);
+
+        let deltaLat = result & 1 ? ~(result >> 1) : result >> 1;
+        lat += deltaLat;
+
+        shift = 0;
         result = 0;
-      let byte;
 
-      do {
-        byte = encoded.charCodeAt(index++) - 63;
-        result |= (byte & 0x1f) << shift;
-        shift += 5;
-      } while (byte >= 0x20);
+        do {
+            byte = encoded.charCodeAt(index++) - 63;
+            result |= (byte & 0x1f) << shift;
+            shift += 5;
+        } while (byte >= 0x20);
 
-      let deltaLat = result & 1 ? ~(result >> 1) : result >> 1;
-      lat += deltaLat;
+        let deltaLng = result & 1 ? ~(result >> 1) : result >> 1;
+        lng += deltaLng;
 
-      shift = 0;
-      result = 0;
-
-      do {
-        byte = encoded.charCodeAt(index++) - 63;
-        result |= (byte & 0x1f) << shift;
-        shift += 5;
-      } while (byte >= 0x20);
-
-      let deltaLng = result & 1 ? ~(result >> 1) : result >> 1;
-      lng += deltaLng;
-
-      coordinates.push([lat / 1e5, lng / 1e5]);
+        coordinates.push([lat / 1e5, lng / 1e5]);
     }
 
     return coordinates;
   }
+  function getColor(index) {
+    const colors = [
+  "#FF0000", // Bright Red
+  "#0000FF", // Bright Blue
+  "#008000", // Bright Green
+  "#FFA500", // Orange
+  "#800080", // Purple
+  "#FFFF00", // Yellow
+  "#00FFFF", // Cyan
+  "#FF1493", // Deep Pink
+  "#FF4500", // Orange-Red
+  "#1E90FF", // Dodger Blue
+  "#A52A2A", // Dark Brown
+  "#4B0082", // Indigo
+  "#CDDC39", // Lime Green
+  "#FF5722", // Deep Orange
+  "#2E8B57", // Sea Green
+];
+    return colors[index % colors.length];
+  }
+  function getSegmentsWithColors(legs) {
+    if (!legs || legs.length === 0) {
+        console.error("No legs provided for segment color coding.");
+        return [];
+    }
+
+    let segments = [];
+    let colorIndex = 0;
+    console.log(legs);
+
+    legs.forEach((leg, i) => {
+        if (!leg.steps || leg.steps.length === 0) {
+            console.error(`Leg ${i + 1} has no steps.`);
+            return;
+        }
+
+        let legPoints = [];
+
+        // Decode each step inside the leg and reconstruct the polyline
+        leg.steps.forEach((step) => {
+            if (step.polyline && step.polyline.encodedPolyline) {
+                const stepPoints = decodePolyline(step.polyline.encodedPolyline);
+                legPoints.push(...stepPoints);
+            }
+        });
+
+        // Add the full leg segment with a unique color
+        for (let j = 0; j < legPoints.length - 1; j++) {
+            segments.push({
+                start: legPoints[j],
+                end: legPoints[j + 1],
+                color: getColor(colorIndex)
+            });
+        }
+
+        console.log(`Leg ${i + 1}: ${legPoints.length} points, Color: ${getColor(colorIndex)}`);
+        colorIndex++;
+    });
+
+    console.log("Generated Segments:", segments);
+    return segments;
+}
+
+
 
   if (tripData.length === 0) {
     return <p>Loading map...</p>;
@@ -156,7 +220,6 @@ function Map({ tripData, setDuration }) {
 
   const starting_point = tripData[0];
   const pois = tripData.slice(1,-1);
-
   const createNumberedIcon = (number) => {
   return L.divIcon({
     html: `
@@ -190,7 +253,9 @@ function Map({ tripData, setDuration }) {
 
     <MapContainer center={starting_point.coordinates} zoom={13.5} className={styles.fullHeightMap}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {route && <Polyline positions={route} color="blue" />}
+      {route && route.length > 0 && route.map((r, index) => (
+        <Polyline key={index} positions={[r.start, r.end]} color={r.color} />
+      ))}
       <Marker position={starting_point.coordinates} icon={startIcon} />
       {travelTime &&
         pois.map((poi, index) => (
