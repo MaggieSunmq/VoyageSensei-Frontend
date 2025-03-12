@@ -121,12 +121,10 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
       setLoading(true);
       //setProcessingMessage("Processing request...");
       try {
-        const response = await axios.post('http://127.0.0.1:5000/query', {query: transcript});
-
+        const response = await axios.post('http://127.0.0.1:5000/critique', {query: transcript});
         const botReply = getBotReply(response.data);
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
-
         speak(botReply); // Speak the bot's reply
       } catch (error) {
         console.error('Error fetching response:', error);

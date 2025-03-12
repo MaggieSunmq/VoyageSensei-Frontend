@@ -82,7 +82,11 @@ function Understand() {
       //setProcessingMessage("Processing request...");
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', {query: transcript});
-
+        const isTripGenerated = typeof response.data === "object" && response.data !== null;
+        if (isTripGenerated) {
+          //setTripGenerated(true);
+          navigate('/planner')
+        }
         const botReply = getBotReply(response.data);
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
