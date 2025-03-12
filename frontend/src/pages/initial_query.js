@@ -74,29 +74,19 @@ function Understand() {
       }
     }
   };
-  const processVoiceInput = async (voiceText) => {
-    if (voiceText.trim()) {
-      const userMessage = {text: voiceText, user: 'user'};
+  const processVoiceInput = async () => {
+    if (transcript.trim()) {
+      const userMessage = {text: transcript, user: 'user'};
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setLoading(true);
       //setProcessingMessage("Processing request...");
-      resetTranscript();
       try {
-        const response = await axios.post('http://127.0.0.1:5000/query', {query: voiceText});
+        const response = await axios.post('http://127.0.0.1:5000/query', {query: transcript});
+
         const botReply = getBotReply(response.data);
-        const isTripGenerated = typeof response.data === "object" && response.data !== null;
-        if (isTripGenerated) {
-          //setTripGenerated(true);
-          navigate('/planner')
-          setLoading(false);
-          console.log(response.data);
-          console.log (typeof response.data);
-          //setProcessingMessage("Generating your trip, please wait...");
-        }
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
-        speak(botReply, isTripGenerated);
-        setLoading(false);
+        speak(botReply); // Speak the bot's reply
       } catch (error) {
         console.error('Error fetching response:', error);
         const errorMessage = {
@@ -104,8 +94,9 @@ function Understand() {
           text: "There was an error processing your request. Please try again later.",
         };
         setMessages((prevMessages) => [...prevMessages, errorMessage]);
-        speak(errorMessage.text);
-        resetTranscript();
+        speak(errorMessage.text); // Speak the error message
+      } finally {
+        resetTranscript(); // Clear the transcript
         setLoading(false);
       }
     }
