@@ -84,16 +84,19 @@ function Understand() {
       try {
         const response = await axios.post('http://127.0.0.1:5000/query', {query: voiceText});
         const botReply = getBotReply(response.data);
-        const isTripGenerated = typeof response.data === "object";
+        const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
           //setTripGenerated(true);
           navigate('/planner')
           setLoading(false);
+          console.log(response.data);
+          console.log (typeof response.data);
           //setProcessingMessage("Generating your trip, please wait...");
         }
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         speak(botReply, isTripGenerated);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching response:', error);
         const errorMessage = {
