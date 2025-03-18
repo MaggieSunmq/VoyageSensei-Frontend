@@ -7,7 +7,6 @@ import OpenRouteService from 'openrouteservice-js';
 import styles from '../styling/MapBDemo.module.css';
 
 function Map({ tripData }) {
-    const [itinerary, setItinerary] = useState(null);
     const [route, setRoute] = useState(null); // State to store the route coordinates
 
     const startIcon = new L.Icon({
@@ -87,12 +86,11 @@ function Map({ tripData }) {
       </div>
     `,
             className: "numbered-icon",
-            iconSize: [30, 42], // Adjusted to fit the pin shape
-            iconAnchor: [15, 42], // Anchor at the tip of the pin
+            iconSize: [30, 42],
+            iconAnchor: [15, 42],
         });
     };
     const calculateOffset = (index, total) => {
-        // Spread tooltips around the marker by alternating offsets
         const baseOffset = 15;
         const direction = index % 2 === 0 ? 1 : -1; // Alternate top and bottom
         const verticalOffset = baseOffset + Math.floor(index / total) * 10;
@@ -103,7 +101,7 @@ function Map({ tripData }) {
         <MapContainer
             center={starting_point.coordinates}
             zoom={13}
-            className={styles.fullHeightMap} // Use CSS Module for class
+            className={styles.fullHeightMap}
         >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 

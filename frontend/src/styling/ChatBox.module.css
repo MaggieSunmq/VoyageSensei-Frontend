@@ -1,26 +1,26 @@
 .chatBox {
-  position: static; /* Static placement within the left panel */
-  width: 100%; /* Full width of the left panel */
-  height: 50px; /* Default collapsed height */
+  position: static;
+  width: 100%;
+  height: 50px;
   background: #fff;
   border-top: 1px solid #ccc;
-  transition: height 0.3s ease; /* Smooth expand/collapse */
-  overflow: hidden; /* Hide content when collapsed */
+  transition: height 0.3s ease;
+  overflow: hidden;
 }
 
 .chatBox.expanded {
-  height: 300px; /* Fixed size when expanded */
+  height: 300px;
 }
 
 .chatContent {
-  height: calc(300px - 60px); /* Adjust height to fit expanded size minus the input panel */
+  height: calc(300px - 60px);
   display: flex;
   flex-direction: column;
 }
 
 .messages {
-  flex: 1; /* Allow messages to take up available space */
-  overflow-y: auto; /* Enable vertical scrolling for long chat history */
+  flex: 1;
+  overflow-y: auto;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -76,15 +76,6 @@ button:disabled {
   background: #ccc;
 }
 
-.user {
-  background-color: #e1f5fe;
-  align-self: flex-end;
-}
-
-.bot {
-  background-color: #f0f0f0;
-  align-self: flex-start;
-}
 .toggleButton {
   width: 100%;
   background: #2d6a4f;
@@ -99,18 +90,6 @@ button:disabled {
   background: #2d6a4f;
 }
 
-.nextPageButton button {
-  padding: 8px 10px;
-  background-color: #52a175;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.nextPageButton button:hover {
-  background-color: #52a175;
-}
 
 .processingContainer {
   display: flex;

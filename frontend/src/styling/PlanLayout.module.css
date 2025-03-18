@@ -1,20 +1,10 @@
-/* General Layout */
 .itinerary {
   padding: 20px;
   font-family: 'Arial', sans-serif;
   color: #333;
-  background-color: #f5f5f5; /* Light gray background */
+  background-color: #f5f5f5;
   border-radius: 12px;
 }
-
-.itineraryTitle {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #444;
-  text-align: center;
-}
-
 /* Separator */
 .separator {
   text-align: center;
@@ -49,21 +39,14 @@
 
 /* Starting Point Card */
 .startingPoint {
-  border-left: 6px solid #ccc; /* Neutral gray for starting point */
+  border-left: 6px solid #ccc;
 }
 
-/* POI Card */
 .poi {
-  border-left: 6px solid #f08080; /* Light red accent for POIs */
+  border-left: 6px solid #f08080;
 }
 
-/* Text */
-.poiSubtitle{
-  font-size: 18px;
-  line-height: 1.6; /* Consistent spacing for readability */
-  color: #555;
-  margin-bottom: 10px;
-}
+
 .poiInfo {
   font-size: 18px;
   line-height: 1.6; 
@@ -72,62 +55,62 @@
 }
 
 .poiDetail {
-  margin-top: 8px; /* Add space between description and details */
-  font-size: 18px; /* Consistent font size */
-  color: #333; /* Neutral color for labels and content */
+  margin-top: 8px;
+  font-size: 18px;
+  color: #333;
 }
 
 .poiDetail strong {
-  font-weight: 600; /* Bold labels for emphasis */
-  margin-right: 4px; /* Space after the label */
+  font-weight: 600;
+  margin-right: 4px;
 }
 .keywordContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px; /* Spacing between tags */
+    gap: 8px;
     margin-top: 8px;
 }
 
 .keywordTag {
     display: inline-block;
-    background-color: #f3f4f6; /* Light gray background */
-    color: #333; /* Darker text for contrast */
-    padding: 4px 8px; /* Inner spacing for the tag */
-    border-radius: 16px; /* Rounded edges */
-    font-size: 1.1rem; /* Slightly smaller text */
-    font-weight: 500; /* Medium font weight for emphasis */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    border: 1px solid #ddd; /* Border for definition */
-    cursor: default; /* Indicate these are not clickable */
-    user-select: none; /* Prevent text selection */
+    background-color: #f3f4f6;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    cursor: default;
+    user-select: none;
     transition: all 0.2s ease-in-out;
 }
 
 .keywordTag:hover {
-    background-color: #e0e7ff; /* Light blue for hover effect */
-    border-color: #6366f1; /* Blue border on hover */
-    color: #1e3a8a; /* Dark blue text */
+    background-color: #e0e7ff;
+    border-color: #10b981;
+    color: #059669;
 }
 
 .eventTag {
     display: inline-block;
-    background-color: #d4edda; /* Light gray background */
-    color: #333; /* Darker text for contrast */
-    padding: 4px 8px; /* Inner spacing for the tag */
-    border-radius: 16px; /* Rounded edges */
-    font-size: 1.1rem; /* Slightly smaller text */
-    font-weight: 500; /* Medium font weight for emphasis */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    border: 1px solid #d4edda; /* Border for definition */
-    cursor: default; /* Indicate these are not clickable */
-    user-select: none; /* Prevent text selection */
+    background-color: #d4edda;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d4edda;
+    cursor: default;
+    user-select: none;
     transition: all 0.2s ease-in-out;
 }
 
 .eventTag:hover {
-background-color: #d1fae5; /* Light green for hover effect */
-border-color: #10b981; /* Green border on hover */
-color: #065f46; /* Dark green text */
+background-color: #d1fae5;
+border-color: #10b981;
+color: #065f46;
 }
 
 

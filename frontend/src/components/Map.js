@@ -96,8 +96,7 @@ function Map({ tripData, setDuration }) {
           //const segments = getSegmentsWithColors(routeCoordinates);
           const segmentDurations = routeData.legs.map((leg) => {
             const durationInSeconds = parseInt(leg.duration.replace("s", ""), 10);
-            return Math.ceil(durationInSeconds / 60);});
-          // Extract travel times per segment
+            return Math.ceil(1.2*durationInSeconds / 60);});
           console.log(routeData.legs[0]["duration"])
           console.log(segmentDurations)
           setRoute(routeCoordinates);
@@ -186,16 +185,12 @@ function decodePolyline(encoded) {
         }
 
         let legPoints = [];
-
-        // Decode each step inside the leg and reconstruct the polyline
         leg.steps.forEach((step) => {
             if (step.polyline && step.polyline.encodedPolyline) {
                 const stepPoints = decodePolyline(step.polyline.encodedPolyline);
                 legPoints.push(...stepPoints);
             }
         });
-
-        // Add the full leg segment with a unique color
         for (let j = 0; j < legPoints.length - 1; j++) {
             segments.push({
                 start: legPoints[j],
@@ -203,17 +198,12 @@ function decodePolyline(encoded) {
                 color: getColor(colorIndex)
             });
         }
-
         console.log(`Leg ${i + 1}: ${legPoints.length} points, Color: ${getColor(colorIndex)}`);
         colorIndex++;
     });
-
     console.log("Generated Segments:", segments);
     return segments;
 }
-
-
-
   if (tripData.length === 0) {
     return <p>Loading map...</p>;
   }
@@ -221,9 +211,9 @@ function decodePolyline(encoded) {
   const starting_point = tripData[0];
   const pois = tripData.slice(1,-1);
   const createNumberedIcon = (number) => {
-  return L.divIcon({
-    html: `
-      <div style="
+    return L.divIcon({
+        html: `
+        <div style="
         position: relative;
         width: 30px;
         height: 30px;
@@ -237,20 +227,16 @@ function decodePolyline(encoded) {
         align-items: center;
         justify-content: center;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-      ">
-        <div style="
-          transform: rotate(45deg); /* Corrects text orientation */
         ">
-          ${number}
-        </div>
-      </div>
-    `,
-    className: "numbered-icon",
-    iconSize: [30, 42], // Adjusted to fit the pin shape
-    iconAnchor: [15, 42], // Anchor at the tip of the pin
-  });};
+        <div style=" transform: rotate(45deg); /* Corrects text orientation */ ">
+            ${number}
+            </div>
+        </div>`,
+        className: "numbered-icon",
+        iconSize: [30, 42], // Adjusted to fit the pin shape
+        iconAnchor: [15, 42], // Anchor at the tip of the pin
+    });};
   return (
-
     <MapContainer center={starting_point.coordinates} zoom={13.5} className={styles.fullHeightMap}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {route && route.length > 0 && route.map((r, index) => (
@@ -269,7 +255,6 @@ function decodePolyline(encoded) {
     </MapContainer>
   );
 }
-
 export default Map;
 
 

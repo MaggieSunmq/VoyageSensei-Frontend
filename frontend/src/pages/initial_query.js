@@ -61,7 +61,7 @@ function Understand() {
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         speak(botReply);
-        setLoading(false);
+        //setLoading(false);
       } catch (error) {
         console.error('Error fetching response:', error);
         const errorMessage = {
@@ -70,6 +70,8 @@ function Understand() {
         };
         setMessages((prevMessages) => [...prevMessages, errorMessage]);
         speak(errorMessage.text);
+        //setLoading(false);
+        } finally {
         setLoading(false);
       }
     }
@@ -176,6 +178,5 @@ function Understand() {
 }
 
 export default Understand;
-
 
 
