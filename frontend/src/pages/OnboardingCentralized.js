@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styling/onboarding.module.css";
-import axios from 'axios';
 
 const OnboardingCentral = () => {
-  const [currentStep, setCurrentStep] = useState(1); // Track the current step
-  const [likedTags, setLikedTags] = useState([]); // Liked tags state
-  const [dislikedTags, setDislikedTags] = useState([]); // Disliked tags state
-  const [activeTag, setActiveTag] = useState(null); // Track the currently active tag
+  const [currentStep, setCurrentStep] = useState(1);
+  const [likedTags, setLikedTags] = useState([]);
+  const [dislikedTags, setDislikedTags] = useState([]);
+  const [activeTag, setActiveTag] = useState(null);
   const navigate = useNavigate();
 
   // Steps for the onboarding process
@@ -67,7 +66,6 @@ const OnboardingCentral = () => {
     },
   ];
 
-  // Handle tag selection
   const handleTagClick = (tag, type = "liked") => {
     if (type === "liked") {
       if (dislikedTags.some((dislikedTag) => dislikedTag.id === tag.id)) return;
@@ -84,13 +82,11 @@ const OnboardingCentral = () => {
           : [...prev, tag]
       );
     }
-    // Always update the activeTag to the clicked tag
     setActiveTag((prev) => (prev && prev.id === tag.id ? null : tag));
     console.log("Active Tag:", tag);
   };
 
 
-  // Handle navigation
   const handleNext = () => {
     if (currentStep < steps.length) {
       setCurrentStep((prev) => prev + 1);
@@ -107,12 +103,9 @@ const OnboardingCentral = () => {
     }
   };
 
-  // Submit selected tags to the backend
   const handleSubmit = async () => {
     const likedTagNames = likedTags.map((tag) => tag.name);
     const dislikedTagNames = dislikedTags.map((tag) => tag.name);
-
-  // Construct the payload
     const tags = {
       likedTags: likedTagNames,
       dislikedTags: dislikedTagNames,
@@ -126,9 +119,6 @@ const OnboardingCentral = () => {
         console.error("Error sending data:", error);
     }
   };
-
-
-  // Render the current step
   const renderStep = (step) => (
     <div className={styles.container}>
       <div className={styles.leftSection}>
