@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-//import axios from 'axios';
-import styles from "../styling/PlanLayout.module.css"
+import React from 'react';
+import styles from "../styling/Itinerary.module.css"
 
 
 function Itinerary({ tripData, travelDuration}) {

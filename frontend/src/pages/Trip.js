@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Map from '../components/Map';
 import ChatBox from '../components/ChatBox';
 import Itinerary from '../components/Itinerary';
-import styles from '../styling/MapDemo.module.css';
+import styles from '../styling/Map.module.css';
 import axios from 'axios';
 
   function Trip() {

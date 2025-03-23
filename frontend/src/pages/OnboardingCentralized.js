@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../styling/onboarding.module.css";
+import styles from "../styling/Onboarding.module.css";
 
 const OnboardingCentral = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -85,13 +85,12 @@ const OnboardingCentral = () => {
     setActiveTag((prev) => (prev && prev.id === tag.id ? null : tag));
     console.log("Active Tag:", tag);
   };
-
-
   const handleNext = () => {
     if (currentStep < steps.length) {
       setCurrentStep((prev) => prev + 1);
     } else {
       handleSubmit();
+      navigate('/user-preference')
     }
   };
 
@@ -219,7 +218,6 @@ const OnboardingCentral = () => {
     </div>
   </div>
   );
-
   return renderStep(steps[currentStep - 1]); // Render the current step
 };
 

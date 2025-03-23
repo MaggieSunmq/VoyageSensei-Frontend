@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import styles from '../styling/QueryInput.module.css';
+import styles from '../styling/PE.module.css';
 import axios from 'axios';
 
 function Understand() {
@@ -56,7 +56,7 @@ function Understand() {
         const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
           //setTripGenerated(true);
-          navigate('/planner')
+          navigate('/trip-detail')
         }
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
@@ -87,7 +87,7 @@ function Understand() {
         const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
           //setTripGenerated(true);
-          navigate('/planner')
+          navigate('/trip-detail')
         }
         const botReply = getBotReply(response.data);
         const botMessage = {user: 'bot', text: botReply};

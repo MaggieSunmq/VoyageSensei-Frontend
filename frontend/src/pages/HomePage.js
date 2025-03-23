@@ -18,10 +18,10 @@ function HomePage() {
         </div>
 
         <div className={styles.buttonContainer}>
-          <button onClick={() => navigate('/onboarding/Activities') } className={styles.actionButton} disabled >
+          <button onClick={() => navigate('/onboarding/Activities') } className={styles.actionButton} >
             Build Your Profile
           </button>
-          <button onClick={() => navigate('/understand_user')} className={styles.actionButton}>
+          <button onClick={() => navigate('/user-preference')} className={styles.actionButton}>
             Start Planning
           </button>
         </div>
