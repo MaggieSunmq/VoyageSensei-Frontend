@@ -6,7 +6,7 @@
 
 /* Left panel containing Itinerary and ChatBox */
 .leftPanel {
-  width: 35%; /* Adjust width as needed */
+  width: 42%; /* Adjust width as needed */
   display: flex;
   flex-direction: column; /* Stack itinerary and chatbox vertically */
   background-color: #ffffff;
@@ -25,51 +25,23 @@
   width: 65%;
   position: relative;
 }
-
-/* Refresh button on top of the map */
-/*.refreshButton {*/
-/*  position: absolute; !* Absolute positioning relative to rightPanel *!*/
-/*  bottom: 20px; !* Distance from the bottom of the panel *!*/
-/*  right: 20px; !* Distance from the right of the panel *!*/
-/*  z-index: 1000; !* Ensure it appears above the map *!*/
-/*  padding: 10px 20px;*/
-/*  background-color: #007bff; !* Blue background *!*/
-/*  color: white; !* White text *!*/
-/*  border: none; !* Remove border *!*/
-/*  border-radius: 5px; !* Rounded corners *!*/
-/*  font-size: 16px; !* Font size *!*/
-/*  cursor: pointer; !* Pointer cursor *!*/
-/*  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); !* Optional shadow *!*/
-/*  transition: background-color 0.3s ease;*/
-/*}*/
-
-/*.refreshButton:hover {*/
-/*  background-color: #0056b3; !* Darker blue on hover *!*/
-/*}*/
-/* Full height map */
 .fullHeightMap {
   width: 100%;
   height: 100%; /* Fill right panel */
 }
-
-/* Leaflet Map Popups */
 .leaflet-popup-content-wrapper {
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .leaflet-popup-content {
   color: #333;
   font-size: 14px;
   padding: 8px;
 }
-
 .leaflet-popup-tip {
   background-color: #ffffff;
 }
-
-/* Custom marker icons (optional if you use custom icons) */
 .customMarker {
   width: 30px;
   height: 30px;
@@ -81,25 +53,17 @@
   color: #ffffff;
   font-weight: bold;
 }
-
-/* General Map Styling */
 .map-container {
   height: 100vh;
   width: 100%;
 }
-
-/* Custom Number Icon */
 .custom-number-icon-wrapper {
   text-align: center;
 }
-
-/* Full-Height Map Styling */
 .fullHeightMap {
   height: 100vh;
   width: 100%;
 }
-
-/* Custom Numbered Icon */
 .custom-numbered-icon {
   position: relative;
   width: 30px;
@@ -115,51 +79,41 @@
   justify-content: center;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
-
 .number-text {
   transform: rotate(45deg); /* Corrects text orientation */
 }
-
-/* Popup Styling */
 .poi-popup {
   width: 200px;
   font-family: Arial, sans-serif;
   text-align: left;
 }
-
 .poi-name {
   margin: 0;
   color: #007bff;
   font-size: 1.2em;
 }
-
 .poi-description {
-  margin: 0.5em 0;
+  margin: 0.3em 0;
   font-size: 1em;
   color: #555;
 }
-
 .poi-details {
   font-size: 0.9em;
   color: #666;
 }
-
 .poi-details strong {
   font-weight: bold;
   color: #333;
 }
-
 .custom-tooltip {
-    font-size: 2rem; /* Adjust font size for tooltip text */
+    font-size: 25rem; /* Adjust font size for tooltip text */
     font-weight: normal; /* Optional: Set text weight */
     color: #000; /* Optional: Tooltip text color */
     background-color: #fff; /* Optional: Tooltip background */
     padding: 5px; /* Optional: Add padding for better spacing */
     border-radius: 5px; /* Optional: Add rounded corners */
 }
-
 .custom-tooltip strong {
     font-size: 2rem; /* Adjust size for bold text */
     color: #ff5722; /* Optional: Change color for <strong> text */
 }
-

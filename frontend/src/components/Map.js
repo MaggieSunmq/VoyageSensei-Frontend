@@ -150,21 +150,19 @@ function decodePolyline(encoded) {
   }
   function getColor(index) {
     const colors = [
-  "#FF0000", // Bright Red
   "#0000FF", // Bright Blue
   "#008000", // Bright Green
-  "#FFA500", // Orange
   "#800080", // Purple
-  "#FFFF00", // Yellow
-  "#00FFFF", // Cyan
+
   "#FF1493", // Deep Pink
-  "#FF4500", // Orange-Red
   "#1E90FF", // Dodger Blue
+        // "#FF0000", // Bright Red
   "#A52A2A", // Dark Brown
   "#4B0082", // Indigo
   "#CDDC39", // Lime Green
   "#FF5722", // Deep Orange
   "#2E8B57", // Sea Green
+     "#FFA500", // Orange
 ];
     return colors[index % colors.length];
   }
@@ -247,8 +245,10 @@ function decodePolyline(encoded) {
         pois.map((poi, index) => (
           <Marker key={index} position={poi.coordinates} icon={createNumberedIcon(index + 1)}>
             <Tooltip direction="top" offset={[0, -35]} permanent>
-              <strong>{poi.name}</strong>
-              <br />
+                <div style={{ fontSize: '16px' }}>
+                    <strong>{poi.name}</strong>
+                <br />
+                </div>
             </Tooltip>
           </Marker>
         ))}

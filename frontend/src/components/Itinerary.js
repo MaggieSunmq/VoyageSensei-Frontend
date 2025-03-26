@@ -15,19 +15,17 @@ function Itinerary({ tripData, travelDuration}) {
   return (
       <div className={styles.itinerary}>
           {/* Starting Point */}
-          {startingPoint && (
+          {/*{startingPoint && (
               <div className={`${styles.poiCard} ${styles.startingPoint}`}>
                   <h3>Starting Point</h3>
                   <p>{startingPoint.address}</p>
               </div>
-          )}
-          <p>🚗 Travel Time: {startDuration} min</p>
-
+          )}*/}
           {/* Separator */}
-          <div className={styles.separator}></div>
-
+          {/*<div className={styles.separator}></div>*/}
           {/* POIs with Travel Times */}
           <div className={styles.poiList}>
+              <p>🚗 Heading to: {startDuration} min</p>
               {pois.map((poi, index) => (
                   <div key={index}>
                       {/* POI Card */}
@@ -35,7 +33,7 @@ function Itinerary({ tripData, travelDuration}) {
                           <h3>{index + 1}. {poi.name}</h3>
                           <div className={styles.poiDetail}>
                               <div>
-                                  <strong>Address:</strong> <span className={styles.poiInfo}>{poi.address}</span>
+                                  <span className={styles.poiInfo}>{poi.address}</span>
                               </div>
                               <div>
                                   <strong>Estimated Duration:</strong> <span
@@ -43,19 +41,19 @@ function Itinerary({ tripData, travelDuration}) {
                               </div>
                               {poi.keywords && poi.keywords.length > 0 && (
                                   <div className={styles.keywordContainer}>
-                                      {poi.keywords.map((keyword, index) => (
+                                      {poi.keywords.slice(0,2).map((keyword, index) => (
                                           <span key={index} className={styles.keywordTag}>{keyword}</span>
                                       ))}
                                   </div>
                               )}
                               {poi.event["Event Found"] === 'Yes' && (
                                   <div className={styles.keywordContainer}>
-                                      <span key={index} className={styles.eventTag}>{"Event: " + poi.event["Event Name"]}</span>
+                                      <span key={index}
+                                            className={styles.eventTag}>{poi.event["Event Name"]}</span>
                                   </div>
                               )}
                           </div>
                       </div>
-
                       {/* Travel Time Separator (Except After the Last POI) */}
                       {index < pois.length - 1 && (
                           <div>
