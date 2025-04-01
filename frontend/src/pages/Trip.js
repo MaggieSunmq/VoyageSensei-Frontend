@@ -52,8 +52,8 @@ import axios from 'axios';
               height: isChatBoxExpanded ? 'calc(100% - 250px)' : 'calc(100% - 50px)',
             }}
         >
-          {/*<h2 style={{marginTop: '0px', marginBottom: '12px'}}>Trip Plan Details</h2>*/}
-          {/*<strong>Trip Summary:</strong> {tripSummary}*/}
+          <h2>Trip Plan Details</h2>
+          <strong>Trip Summary:</strong> {tripSummary}
           <Itinerary tripData={tripData}
                      travelDuration = {travelDuration}/>
         </div>
