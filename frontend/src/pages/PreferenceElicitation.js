@@ -8,11 +8,16 @@ function Understand() {
   const navigate = useNavigate();
   //const [tripGenerated, setTripGenerated] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState([]);
+  //const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [speaking, setSpeaking] = useState(false);
   const {transcript, listening, resetTranscript} = useSpeechRecognition();
   //const [processingMessage, setProcessingMessage] = useState("");
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = sessionStorage.getItem('chatMessages');
+    console.log("Loading messages from sessionStorage:", savedMessages);
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
 
   const speak = (text) => {
     const utterance = new SpeechSynthesisUtterance(text);
@@ -56,7 +61,7 @@ function Understand() {
         const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
           //setTripGenerated(true);
-          navigate('/trip-detail')
+          //navigate('/trip-detail')
         }
         const botMessage = {user: 'bot', text: botReply};
         setMessages((prevMessages) => [...prevMessages, botMessage]);
@@ -87,7 +92,7 @@ function Understand() {
         const isTripGenerated = typeof response.data === "object" && response.data !== null;
         if (isTripGenerated) {
           //setTripGenerated(true);
-          navigate('/trip-detail')
+          //navigate('/trip-detail')
         }
         const botReply = getBotReply(response.data);
         const botMessage = {user: 'bot', text: botReply};
@@ -120,6 +125,10 @@ function Understand() {
     }
   }, [transcript, listening, speaking]);
 
+  useEffect(() => {
+  sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
+
   const handleTextSubmit = (e) => {
     if (e) e.preventDefault();
     processTextInput(inputText);
@@ -136,7 +145,7 @@ function Understand() {
       <div className={styles.chatPage}>
         {/* Page Title */}
         <div className={styles.pageTitle}>
-          <h1>How Would You Like to Embark on Your Trip Today?</h1>
+          <h1>How Would You Like to Start Your Trip Today?</h1>
         </div>
 
         <div className={styles.chatSection}>

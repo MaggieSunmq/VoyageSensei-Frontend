@@ -5,17 +5,16 @@ import Itinerary from '../components/Itinerary';
 import styles from '../styling/Map.module.css';
 import axios from 'axios';
 
-  function Trip() {
+  function Trip2() {
     const [tripData, setTripData] = useState([]);
     const [tripSummary, setTripSummary] = useState([]);
-    const [isChatBoxExpanded, setIsChatBoxExpanded] = useState(false); 
+    const [isChatBoxExpanded, setIsChatBoxExpanded] = useState(false);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
     const [travelDuration, setTravelDuration] = useState([]);
 
-  
     const fetchTripData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/query/init_trip');
+        const response = await axios.get('http://127.0.0.1:5000/query/current_plan');
         const tmp = response.data;
         const data = tmp.poi_sequence || [];
         console.log(data);
@@ -37,7 +36,6 @@ import axios from 'axios';
     useEffect(() => {
       fetchTripData();
     }, []);
-
     const handleUpdateNotification = () => {
       console.log('ChatBox triggered an update. Fetching new trip data...');
       fetchTripData();
@@ -71,4 +69,4 @@ import axios from 'axios';
     </div>
   );
 }
-export default Trip;
+export default Trip2;

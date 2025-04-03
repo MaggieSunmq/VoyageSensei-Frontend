@@ -4,7 +4,12 @@ import styles from "../styling/ChatBox.module.css";
 import SpeechRecognition, {useSpeechRecognition} from "react-speech-recognition";
 
 function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
-  const [messages, setMessages] = useState([]);
+  //const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = sessionStorage.getItem('chatMessages');
+    console.log("Loading messages from sessionStorage:", savedMessages);
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const [speaking, setSpeaking] = useState(false); // Track when the bot is speaking
@@ -109,6 +114,10 @@ function ChatBox({ isExpanded, toggleExpand, notifyUpdate }) {
       processVoiceInput();
     }
   }, [transcript, listening, speaking]);
+
+  useEffect(() => {
+  sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
   return (
       <div className={`${styles.chatBox} ${isExpanded ? styles.expanded : ''}`}>
         {/* Toggle Button */}

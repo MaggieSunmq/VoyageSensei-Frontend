@@ -3,6 +3,7 @@ import { BrowserRouter, useRoutes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import PE from './pages/PreferenceElicitation';
 import Trip from './pages/Trip';
+import Trip2 from './pages/Trip2';
 import OnboardingCentral from './pages/OnboardingCentralized'
 import './App.css';
 
@@ -10,10 +11,10 @@ function App() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [activeTag, setActiveTag] = useState(null);
 
-  // Reset selectedTags on initial load
+  //Reset selectedTags on initial load
   useEffect(() => {
     console.log("Clearing storage on initial load.");
-    sessionStorage.clear();
+    //sessionStorage.clear();
     localStorage.clear();
     setSelectedTags([]);
     setActiveTag([]);
@@ -34,7 +35,8 @@ function App() {
     {path: "/", element: <HomePage handleTagClick={handleTagClick} selectedTags={selectedTags} activeTag={activeTag}/>},
     {path: "/onboarding/*", element: <OnboardingCentral/>},
     {path: "/user-preference", element: <PE handleTagClick={handleTagClick}/>},
-    {path: "/trip-detail", element: <Trip selectedTags={selectedTags}/>},
+    {path: "/initial-trip-detail", element: <Trip selectedTags={selectedTags}/>},
+    {path: "/updated-trip-detail", element: <Trip2 selectedTags={selectedTags}/>},
   ]);
 
   return (
