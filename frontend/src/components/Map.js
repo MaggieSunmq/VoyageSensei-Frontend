@@ -30,7 +30,7 @@ function Map({ tripData, setDuration }) {
       return;
     }
 
-    const googleMapsApiKey = "AIzaSyBPGkvYUXaCJltRV0ti-jL-LMdOmaoX1GY"; // Replace with a valid key
+    const googleMapsApiKey = "Your_Map_Key"; // Replace with a valid key
     const endpoint = "https://routes.googleapis.com/directions/v2:computeRoutes";
 
     const requestBody = {
