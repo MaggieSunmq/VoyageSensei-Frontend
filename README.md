@@ -2,8 +2,10 @@
 
 VoyageSensei's frontend is a react application
 
+
 Please refer to the following guidelines to set up the environment (need to be updated)
 - Currently, the guide is written based on the setup in a macOS environment
+**The guide and setup code will be updated shortly to improve usability
 
 1. Go to the frontend dir
 2. npm install
